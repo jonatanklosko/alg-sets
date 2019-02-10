@@ -5,19 +5,21 @@ const oauth = require('./oauth');
 const resolvers = require('./resolvers');
 const { initializeDb, getDb } = require('./database');
 
+const COOKIES_SECRET = 'cats-the-sweetest-thing';
+
 (async () => {
   await initializeDb();
 
   const server = new GraphQLServer({
     typeDefs: './schema.graphql',
     resolvers,
-    context: req => ({
+    context: ({ request }) => ({
       db: getDb(),
-      userId: new ObjectId(req.request.signedCookies.userId),
+      userId: new ObjectId(request.signedCookies.userId),
     }),
   });
 
-  server.express.use(cookieParser('cats-the-sweetest-thing'));
+  server.express.use(cookieParser(COOKIES_SECRET));
   server.express.use('/oauth', oauth);
 
   server.start(() => console.log('Server running on localhost:4000'));
