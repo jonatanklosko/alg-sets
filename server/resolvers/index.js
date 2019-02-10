@@ -1,12 +1,11 @@
-const { ObjectId } = require('mongodb');
+const Query = require('./Query');
+const Mutation = require('./Mutation');
+const User = require('./User');
+const AlgSet = require('./AlgSet');
 
 module.exports = {
-  Query: {
-    me: async (parent, args, { db, userId }) => {
-      return await db.collection('users').findOne({ _id: userId })
-    },
-  },
-  User: {
-    id: (parent) => parent._id,
-  }
+  Query,
+  Mutation,
+  User,
+  AlgSet,
 };
