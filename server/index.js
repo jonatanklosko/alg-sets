@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const oauth = require('./oauth');
 const resolvers = require('./resolvers');
 const { initializeDb, getDb } = require('./database');
+const dataloaders = require('./dataloaders');
 
 const COOKIES_SECRET = 'cats-the-sweetest-thing';
 
@@ -15,6 +16,7 @@ const COOKIES_SECRET = 'cats-the-sweetest-thing';
     resolvers,
     context: ({ request }) => ({
       db: getDb(),
+      dataloaders: dataloaders(),
       userId: new ObjectId(request.signedCookies.userId),
     }),
   });

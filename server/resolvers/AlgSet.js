@@ -1,6 +1,6 @@
 module.exports = {
   id: (parent) => parent._id,
-  createdBy: async (parent, args, { db }) => {
-    return await db.collection('users').findOne({ _id: parent.createdById });
+  createdBy: async (parent, args, { db, dataloaders: { userLoader } }) => {
+    return await userLoader.load(parent.createdById);
   },
 };

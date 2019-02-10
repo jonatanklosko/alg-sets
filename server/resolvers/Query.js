@@ -1,5 +1,5 @@
 module.exports = {
-  me: async (parent, args, { db, userId }) => {
-    return await db.collection('users').findOne({ _id: userId });
+  me: async (parent, args, { db, userId, dataloaders: { userLoader } }) => {
+    return await userLoader.load(userId);
   },
 };
