@@ -4,14 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon ./index.js"
   },
-  "author": "",
+  "author": "Jonatan Kłosko",
   "license": "MIT",
   "dependencies": {
     "cookie-parser": "^1.4.3",
     "graphql-yoga": "^1.17.4",
     "mongodb": "^3.1.13",
     "node-fetch": "^2.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
   }
 }
