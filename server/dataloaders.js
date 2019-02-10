@@ -1,11 +1,10 @@
 const DataLoader = require('dataloader');
-const { getDb } = require('./database');
 
-const batchUsers = async ids => {
-  const users = await getDb().collection('users').find({ _id: { $in: ids } }).toArray();
+const batchUsers = async (Users, ids) => {
+  const users = await Users.find({ _id: { $in: ids } }).toArray();
   return ids.map(id => users.find(user => user._id.equals(id)));
 };
 
-module.exports = () => ({
-  userLoader: new DataLoader(batchUsers, { cacheKeyFn: key => key.toString() })
+module.exports = ({ Users }) => ({
+  userLoader: new DataLoader(ids => batchUsers(Users, ids), { cacheKeyFn: key => key.toString() }),
 });
