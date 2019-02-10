@@ -1,30 +1,24 @@
 const { GraphQLServer } = require('graphql-yoga');
+const { ObjectId } = require('mongodb');
 const cookieParser = require('cookie-parser');
 const oauth = require('./oauth');
+const resolvers = require('./resolvers');
+const { initializeDb, getDb } = require('./database');
 
-const typeDefs = `
-  type Query {
-    hello(name: String): String!
-    me: Int
-  }
-`;
+(async () => {
+  await initializeDb();
 
-const resolvers = {
-  Query: {
-    hello: (parent, { name = 'bro' }) => `Yo ${name}, sup?`,
-    me: (parent, args, context) => context.userId
-  },
-};
+  const server = new GraphQLServer({
+    typeDefs: './schema.graphql',
+    resolvers,
+    context: req => ({
+      db: getDb(),
+      userId: new ObjectId(req.request.signedCookies.userId),
+    }),
+  });
 
-const server = new GraphQLServer({
-  typeDefs,
-  resolvers,
-  context: req => ({
-    userId: req.request.signedCookies.userId,
-  }),
-});
+  server.express.use(cookieParser('cats-the-sweetest-thing'));
+  server.express.use('/oauth', oauth);
 
-server.express.use(cookieParser('cats-the-sweetest-thing'));
-server.express.use('/oauth', oauth);
-
-server.start(() => console.log('Server running on localhost:4000'));
+  server.start(() => console.log('Server running on localhost:4000'));
+})();

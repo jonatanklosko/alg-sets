@@ -1,0 +1,17 @@
+type Query {
+  hello(name: String): String!
+  me: User
+}
+
+type User {
+  id: ID!
+  wcaUserId: Int!
+  wcaId: String
+  name: String!
+  avatar: Avatar!
+}
+
+type Avatar {
+  url: String
+  thumbUrl: String
+}

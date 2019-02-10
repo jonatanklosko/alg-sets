@@ -1,5 +1,6 @@
 const express = require('express');
 const fetch = require('node-fetch');
+const { getDb } = require('./database');
 
 const WCA_OAUTH_CLIENT_ID = 'example-application-id';
 const WCA_OAUTH_SECRET = 'example-secret';
@@ -28,7 +29,7 @@ router.get('/sign-in', (req, res) => {
   res.redirect(`${WCA_ORIGIN}/oauth/authorize?${params.toString()}`);
 });
 
-router.get('/callback', (req, res, next) => {
+router.get('/callback', async (req, res, next) => {
   const params = new URLSearchParams({
     client_id: WCA_OAUTH_CLIENT_ID,
     client_secret: WCA_OAUTH_SECRET,
@@ -36,28 +37,23 @@ router.get('/callback', (req, res, next) => {
     code: req.query.code,
     grant_type: 'authorization_code',
   });
-  fetch(`${WCA_ORIGIN}/oauth/token?${params.toString()}`, { method: 'POST' })
-    .then(response => response.json())
-    .then(json =>
-      fetch(`${WCA_ORIGIN}/api/v0/me`, {
-        headers: { Authorization: `Bearer ${json['access_token']}` }
-      })
-    )
-    .then(response => response.json())
-    .then(json => userJsonToUser(json.me))
-    .then(user => {
-      console.log(user)
-      /* TODO: Save user, store the actual db id. */
-      res.cookie('userId', user.wcaUserId, {
-        httpOnly: true,
-        // secure: true,
-        sameSite: 'strict',
-        signed: true,
-        maxAge: 24 * 60 * 60 * 1000,
-      });
-      res.redirect('/');
-    })
-    .catch(next);
+  const tokenResponse = await fetch(`${WCA_ORIGIN}/oauth/token?${params.toString()}`, { method: 'POST' });
+  const { access_token: accessToken } = await tokenResponse.json();
+  const meResponse = await fetch(`${WCA_ORIGIN}/api/v0/me`, {
+    headers: { Authorization: `Bearer ${accessToken}` }
+  });
+  const { me } = await meResponse.json();
+  const user = userJsonToUser(me);
+  const { value: dbUser } = await getDb().collection('users')
+    .findOneAndReplace({ wcaUserId: user.wcaUserId }, user, { upsert: true });
+  res.cookie('userId', dbUser._id, {
+    httpOnly: true,
+    // secure: true,
+    sameSite: 'strict',
+    signed: true,
+    maxAge: 24 * 60 * 60 * 1000,
+  });
+  res.redirect('/');
 });
 
 router.get('/sign-out', (req, res) => {
