@@ -10,6 +10,7 @@ import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
@@ -67,8 +68,8 @@ const Navigation = ({ children }) => {
   return (
     <Query query={USER_QUERY}>
       {({ error, loading, data }) => {
-        if (error) return <div>Error fetching data</div>;
-        if (loading) return <div>Fetching data</div>;
+        if (error) return <div>Error</div>;
+        if (loading) return <LinearProgress />;
         const { me } = data;
         const signedIn = !!me;
 
