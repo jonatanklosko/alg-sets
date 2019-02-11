@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
-import { Query } from 'react-apollo'
-import gql from 'graphql-tag'
+import { Query } from 'react-apollo';
+import { Link } from 'react-router-dom';
+import gql from 'graphql-tag';
 import AppBar from '@material-ui/core/AppBar';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -41,8 +42,9 @@ const Navigation = () => (
                 <Icon>menu</Icon>
               </IconButton>
               <Typography variant="h6" color="inherit" style={{ flexGrow: 1 }}>
-                Alg sets
+                Alg Sets
               </Typography>
+              <Button component={Link} to="/explore" color="inherit">Explore</Button>
               {!me && <Button href="/oauth/sign-in" color="inherit">Sign in</Button>}
             </Toolbar>
           </AppBar>
@@ -62,11 +64,11 @@ const Navigation = () => (
               </Grid>
               <Divider />
               <List>
-                <ListItem button>
+                <ListItem button component={Link} to="/alg-sets">
                   <ListItemIcon><Icon>folder</Icon></ListItemIcon>
                   <ListItemText primary="My alg sets" />
                 </ListItem>
-                <ListItem button>
+                <ListItem button component={Link} to="/starred">
                   <ListItemIcon><Icon>folder_special</Icon></ListItemIcon>
                   <ListItemText primary="Starred" />
                 </ListItem>
