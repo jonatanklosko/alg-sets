@@ -24,5 +24,10 @@ const COOKIES_SECRET = 'cats-the-sweetest-thing';
   server.express.use(cookieParser(COOKIES_SECRET));
   server.express.use('/oauth', oauth(mongo));
 
-  server.start(() => console.log('Server running on localhost:4000'));
+  server.start({
+    cors: {
+      origin: 'http://localhost:3000',
+      credentials: true
+    }
+  }, () => console.log('Server running on localhost:4000'));
 })();
