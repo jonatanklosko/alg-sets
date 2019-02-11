@@ -2,18 +2,19 @@ import React from 'react';
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import AppBar from '@material-ui/core/AppBar';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import Icon from '@material-ui/core/Icon';
 
 const USER_QUERY = gql`
   query {
     me {
       name
       avatar {
-        url
+        thumbUrl
       }
     }
   }
@@ -35,7 +36,7 @@ const Navigation = () => (
               News
             </Typography>
             {me ? (
-              <Button href="/oauth/sign-out" color="inherit">Sign out</Button>
+              <Avatar src={me.avatar.thumbUrl} />
             ) : (
               <Button href="/oauth/sign-in" color="inherit">Sign in</Button>
             )}
