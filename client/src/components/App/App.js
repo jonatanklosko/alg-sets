@@ -5,7 +5,8 @@ import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserRouter } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from "@material-ui/styles";
 
 import Navigation from '../Navigation/Navigation';
 
@@ -42,11 +43,11 @@ const client = new ApolloClient({
 const App = () => (
   <BrowserRouter>
     <ApolloProvider client={client}>
-      <MuiThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Navigation />
-        <div>alrighty</div>
-      </MuiThemeProvider>
+        <Navigation>
+        </Navigation>
+      </ThemeProvider>
     </ApolloProvider>
   </BrowserRouter>
 );
