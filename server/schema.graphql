@@ -4,7 +4,7 @@ type Query {
 }
 
 type Mutation {
-  createAlgSet(name: String!, algs: [String!]): AlgSet
+  createAlgSet(name: String!, secret: Boolean!, algs: [String!]): AlgSet
 }
 
 type User {
@@ -26,6 +26,7 @@ type Avatar {
 type AlgSet {
   id: ID!
   name: String!
+  secret: Boolean!
   createdBy: User!
   algs: [String!]!
 }

@@ -19,6 +19,7 @@ export const ALG_SETS_QUERY = gql`
       algSets {
         id
         name
+        secret
         algs
       }
     }

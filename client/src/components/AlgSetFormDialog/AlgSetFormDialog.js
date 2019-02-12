@@ -6,7 +6,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
@@ -15,10 +14,11 @@ import TextField from '@material-ui/core/TextField';
 import { ALG_SETS_QUERY } from '../AlgSetList/AlgSetList';
 
 const CREATE_ALG_SET_MUTATION = gql`
-  mutation CreateAlgSet($name: String!) {
-    createAlgSet(name: $name) {
+  mutation CreateAlgSet($name: String!, $secret: Boolean!) {
+    createAlgSet(name: $name, secret: $secret) {
       id
       name
+      secret
       algs
     }
   }
@@ -26,7 +26,7 @@ const CREATE_ALG_SET_MUTATION = gql`
 
 const AlgSetList = () => {
   const [name, setName] = useState('');
-  const [isPrivate, setPrivate] = useState(false);
+  const [secret, setSecret] = useState(false);
 
   return (
     <Dialog open={true}>
@@ -43,8 +43,8 @@ const AlgSetList = () => {
           </Grid>
           <Grid item>
             <FormControlLabel
-              control={<Checkbox checked={isPrivate} onChange={() => setPrivate(!isPrivate)} />}
-              label="Private"
+              control={<Checkbox checked={secret} onChange={() => setSecret(!secret)} />}
+              label="Secret"
             />
           </Grid>
         </Grid>
@@ -52,7 +52,7 @@ const AlgSetList = () => {
       <DialogActions>
         <Mutation
           mutation={CREATE_ALG_SET_MUTATION}
-          variables={{ name }}
+          variables={{ name, secret }}
           update={(store, { data: { createAlgSet } }) => {
             const data = store.readQuery({ query: ALG_SETS_QUERY });
             data.me.algSets.push(createAlgSet);
