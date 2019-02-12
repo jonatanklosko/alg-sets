@@ -24,12 +24,12 @@ const CREATE_ALG_SET_MUTATION = gql`
   }
 `;
 
-const AlgSetList = () => {
+const AlgSetList = ({ open, onClose }) => {
   const [name, setName] = useState('');
   const [secret, setSecret] = useState(false);
 
   return (
-    <Dialog open={true}>
+    <Dialog open={open} onClose={onClose}>
       <DialogTitle>New alg set</DialogTitle>
       <DialogContent>
         <Grid container direction="column">
