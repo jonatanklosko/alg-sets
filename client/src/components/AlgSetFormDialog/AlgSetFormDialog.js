@@ -12,6 +12,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 
+import { ALG_SETS_QUERY } from '../AlgSetList/AlgSetList';
+
 const CREATE_ALG_SET_MUTATION = gql`
   mutation CreateAlgSet($name: String!) {
     createAlgSet(name: $name) {
@@ -48,7 +50,15 @@ const AlgSetList = () => {
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Mutation mutation={CREATE_ALG_SET_MUTATION} variables={{ name }}>
+        <Mutation
+          mutation={CREATE_ALG_SET_MUTATION}
+          variables={{ name }}
+          update={(store, { data: { createAlgSet } }) => {
+            const data = store.readQuery({ query: ALG_SETS_QUERY });
+            data.me.algSets.push(createAlgSet);
+            store.writeQuery({ query: ALG_SETS_QUERY, data });
+          }}
+        >
           {(createAlgSet, { error, loading }) => (
             <Button onClick={createAlgSet} disabled={!name || loading}>
               Create

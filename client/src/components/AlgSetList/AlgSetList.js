@@ -13,7 +13,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 
 import AlgSetFormDialog from '../AlgSetFormDialog/AlgSetFormDialog';
 
-const ALG_SETS_QUERY = gql`
+export const ALG_SETS_QUERY = gql`
   query {
     me {
       algSets {
