@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import { Query } from 'react-apollo';
-import { Link } from 'react-router-dom';
 import gql from 'graphql-tag';
+import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { makeStyles } from '@material-ui/styles';
 import AppBar from '@material-ui/core/AppBar';

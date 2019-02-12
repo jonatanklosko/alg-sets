@@ -3,12 +3,13 @@ import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from "@material-ui/styles";
 
 import Navigation from '../Navigation/Navigation';
+import AlgSetList from '../AlgSetList/AlgSetList';
 
 const theme = createMuiTheme({
   palette: {
@@ -46,6 +47,9 @@ const App = () => (
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Navigation>
+          <Switch>
+            <Route exact path="/alg-sets" component={AlgSetList} />
+          </Switch>
         </Navigation>
       </ThemeProvider>
     </ApolloProvider>
