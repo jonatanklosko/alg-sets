@@ -11,6 +11,8 @@ import Grid from '@material-ui/core/Grid';
 import Icon from '@material-ui/core/Icon';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
+import AlgSetFormDialog from '../AlgSetFormDialog/AlgSetFormDialog';
+
 const ALG_SETS_QUERY = gql`
   query {
     me {
@@ -59,6 +61,7 @@ const AlgSetList = () => (
                   <Icon>add</Icon>
                 </CardContent>
               </CardActionArea>
+              <AlgSetFormDialog />
             </Card>
           </Grid>
         </Grid>
