@@ -50,7 +50,7 @@ const AlgSet = ({ match }) => (
               <Grid container spacing={8}>
                 {algSet.algs.map(alg => (
                   <Grid item key={alg} xs={12} md={6} lg={3}>
-                    <AlgCard alg={alg} />
+                    <AlgCard alg={alg} algSetId={algSet.id} />
                   </Grid>
                 ))}
               </Grid>

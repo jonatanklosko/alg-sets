@@ -1,4 +1,6 @@
 import React, { Fragment, useState } from 'react';
+import { Mutation } from 'react-apollo';
+import gql from 'graphql-tag';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -8,9 +10,19 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 
+import ConfirmDialog from '../ConfirmDialog/ConfirmDialog';
 import { algImageUrl, algAnimationUrl } from '../../logic/utils';
 
-const AlgCard = ({ alg }) => {
+const REMOVE_ALG_FROM_ALG_SET_MUTATION = gql`
+  mutation RemoveAlgFromAlgSet($id: ID!, $alg: String!) {
+    removeAlgFromAlgSet(id: $id, alg: $alg) {
+      id
+      algs
+    }
+  }
+`;
+
+const AlgCard = ({ alg, algSetId }) => {
   const [menuPosition, setMenuPosition] = useState(null);
   const closeMenu = () => setMenuPosition(null);
   return (
@@ -43,7 +55,20 @@ const AlgCard = ({ alg }) => {
         >
           Animation
         </MenuItem>
-        <MenuItem onClick={closeMenu}>Delete</MenuItem>
+        <Mutation
+          mutation={REMOVE_ALG_FROM_ALG_SET_MUTATION}
+          variables={{ id: algSetId, alg }}
+        >
+          {(removeAlgFromAlgSet, { error, loading }) => (
+            <ConfirmDialog message="Are you sure you want to delete this alg?" onClose={closeMenu}>
+              {confirm => (
+                <MenuItem onClick={confirm(removeAlgFromAlgSet)} disabled={loading}>
+                  Delete
+                </MenuItem>
+              )}
+            </ConfirmDialog>
+          )}
+        </Mutation>
       </Menu>
     </Fragment>
   );

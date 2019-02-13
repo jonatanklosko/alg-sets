@@ -8,6 +8,7 @@ type Mutation {
   updateAlgSet(id: ID!, name: String, secret: Boolean, algs: [String!]): AlgSet
   deleteAlgSet(id: ID!): AlgSet
   addAlgToAlgSet(id: ID!, alg: String!): AlgSet
+  removeAlgFromAlgSet(id: ID!, alg: String!): AlgSet
 }
 
 type User {

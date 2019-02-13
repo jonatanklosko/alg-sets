@@ -6,9 +6,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-const ConfirmDialog = ({ children, message }) => {
+const ConfirmDialog = ({ children, message, onClose = () => {} }) => {
   const [onConfirm, setOnConfirm] = useState(null);
-  const close = () => setOnConfirm(null);
+  const close = () => { onClose(); setOnConfirm(null); };
   return (
     <Fragment>
       {children(onConfirm => () => setOnConfirm(() => onConfirm))}

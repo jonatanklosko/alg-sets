@@ -32,4 +32,13 @@ module.exports = {
     if (!algSet) throw new Error(`No alg set found with id ${id}`);
     return algSet;
   },
+  removeAlgFromAlgSet: async (parent, { id, alg }, { userId, mongo: { AlgSets } }) => {
+    const { value: algSet } = await AlgSets.findOneAndUpdate(
+      { _id: new ObjectId(id), createdById: userId },
+      { $pull: { algs: alg } },
+      { returnOriginal: false },
+    );
+    if (!algSet) throw new Error(`No alg set found with id ${id}`);
+    return algSet;
+  },
 };
