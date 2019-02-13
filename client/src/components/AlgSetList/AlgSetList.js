@@ -26,53 +26,52 @@ export const ALG_SETS_QUERY = gql`
   }
 `;
 
-const AlgSetList = () => {
-  const [dialogOpen, setDialogOpen] = useState(false);
+const AlgSetList = () => (
+  <Query query={ALG_SETS_QUERY}>
+    {({ error, loading, data }) => {
+      if (error) return <div>Error</div>
+      if (loading) return <LinearProgress />
+      const { me: { algSets } } = data;
 
-  return (
-    <Query query={ALG_SETS_QUERY}>
-      {({ error, loading, data }) => {
-        if (error) return <div>Error</div>
-        if (loading) return <LinearProgress />
-        const { me: { algSets } } = data;
-
-        return (
-          <Grid container spacing={8}>
-            {algSets.map(({ id, name, algs }) => (
-              <Grid item key={id} xs={12} md={6} lg={3}>
-                <Card>
-                  <CardActionArea>
-                    <CardHeader
-                      title={name}
-                      subheader={`Algs: ${algs.length}`}
-                    />
+      return (
+        <AlgSetFormDialog>
+          {openDialogWith => (
+            <Grid container spacing={8}>
+              {algSets.map(algSet => (
+                <Grid item key={algSet.id} xs={12} md={6} lg={3}>
+                  <Card>
+                    <CardActionArea>
+                      <CardHeader
+                        title={algSet.name}
+                        subheader={`Algs: ${algSet.algs.length}`}
+                      />
+                    </CardActionArea>
+                    <CardActions>
+                      <Button size="small" color="primary" onClick={() => openDialogWith(algSet)}>
+                        Edit
+                      </Button>
+                      <Button size="small" color="secondary">
+                        Delete
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              ))}
+              <Grid item xs={12} md={6} lg={3}>
+                <Card style={{ height: '100%', opacity: 0.6 }}>
+                  <CardActionArea onClick={() => openDialogWith({})} style={{ height: '100%' }}>
+                    <CardContent style={{ textAlign: 'center' }}>
+                      <Icon>add</Icon>
+                    </CardContent>
                   </CardActionArea>
-                  <CardActions>
-                    <Button size="small" color="primary">
-                      Edit
-                    </Button>
-                    <Button size="small" color="secondary">
-                      Delete
-                    </Button>
-                  </CardActions>
                 </Card>
               </Grid>
-            ))}
-            <Grid item xs={12} md={6} lg={3}>
-              <Card style={{ height: '100%', opacity: 0.6 }}>
-                <CardActionArea onClick={() => setDialogOpen(true)} style={{ height: '100%' }}>
-                  <CardContent style={{ textAlign: 'center' }}>
-                    <Icon>add</Icon>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
             </Grid>
-            <AlgSetFormDialog open={dialogOpen} onClose={() => setDialogOpen(false)} />
-          </Grid>
-        );
-      }}
-    </Query>
-  );
-};
+          )}
+        </AlgSetFormDialog>
+      );
+    }}
+  </Query>
+);
 
 export default AlgSetList;

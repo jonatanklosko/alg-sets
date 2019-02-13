@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import Button from '@material-ui/core/Button';
@@ -24,50 +24,68 @@ const CREATE_ALG_SET_MUTATION = gql`
   }
 `;
 
-const AlgSetList = ({ open, onClose }) => {
-  const [name, setName] = useState('');
-  const [secret, setSecret] = useState(false);
+const UPDATE_ALG_SET_MUTATION = gql`
+  mutation UpdateAlgSet($id: ID!, $name: String, $secret: Boolean) {
+    updateAlgSet(id: $id, name: $name, secret: $secret) {
+      id
+      name
+      secret
+      algs
+    }
+  }
+`;
 
+const AlgSetFormDialog = ({ children }) => {
+  const [algSet, setAlgSet] = useState(null);
+  const { id, name, secret } = { name: '', secret: false, ...(algSet || {}) };
+  const close = () => setAlgSet(null);
+  const open = !!algSet;
   return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle>New alg set</DialogTitle>
-      <DialogContent>
-        <Grid container direction="column">
-          <Grid item>
-            <TextField
-              autoFocus
-              label="Name"
-              value={name}
-              onChange={event => setName(event.target.value)}
-            />
+    <Fragment>
+      {children(setAlgSet)}
+      <Dialog open={open} onClose={close}>
+        <DialogTitle>{id ? 'Edit alg set' : 'New alg set'}</DialogTitle>
+        <DialogContent>
+          <Grid container direction="column">
+            <Grid item>
+              <TextField
+                autoFocus
+                label="Name"
+                value={name}
+                onChange={event => setAlgSet({ ...algSet, name: event.target.value })}
+              />
+            </Grid>
+            <Grid item>
+              <FormControlLabel
+                control={<Checkbox checked={secret} onChange={() => setAlgSet({ ...algSet, secret: !secret })} />}
+                label="Secret"
+              />
+            </Grid>
           </Grid>
-          <Grid item>
-            <FormControlLabel
-              control={<Checkbox checked={secret} onChange={() => setSecret(!secret)} />}
-              label="Secret"
-            />
-          </Grid>
-        </Grid>
-      </DialogContent>
-      <DialogActions>
-        <Mutation
-          mutation={CREATE_ALG_SET_MUTATION}
-          variables={{ name, secret }}
-          update={(store, { data: { createAlgSet } }) => {
-            const data = store.readQuery({ query: ALG_SETS_QUERY });
-            data.me.algSets.push(createAlgSet);
-            store.writeQuery({ query: ALG_SETS_QUERY, data });
-          }}
-        >
-          {(createAlgSet, { error, loading }) => (
-            <Button onClick={createAlgSet} disabled={!name || loading}>
-              Create
-            </Button>
-          )}
-        </Mutation>
-      </DialogActions>
-    </Dialog>
+        </DialogContent>
+        <DialogActions>
+          <Mutation
+            mutation={id ? UPDATE_ALG_SET_MUTATION : CREATE_ALG_SET_MUTATION}
+            variables={{ id, name, secret }}
+            update={(store, { data: { createAlgSet, updateAlgSet } }) => {
+              const data = store.readQuery({ query: ALG_SETS_QUERY });
+              data.me.algSets = id
+                ? data.me.algSets.map(algSet => algSet.id === updateAlgSet.id ? updateAlgSet : algSet)
+                : data.me.algSets.concat(createAlgSet);
+              store.writeQuery({ query: ALG_SETS_QUERY, data });
+            }}
+            onCompleted={close}
+          >
+            {(createAlgSet, { error, loading }) => (
+              <Button onClick={createAlgSet} disabled={!name || loading}>
+                {id ? 'Update' : 'Create'}
+              </Button>
+            )}
+          </Mutation>
+        </DialogActions>
+      </Dialog>
+    </Fragment>
   );
 };
 
-export default AlgSetList;
+export default AlgSetFormDialog;
