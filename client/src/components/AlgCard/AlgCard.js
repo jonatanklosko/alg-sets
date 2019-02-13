@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react';
+import CopyToClipboard from 'react-copy-to-clipboard';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
@@ -32,7 +33,9 @@ const AlgCard = ({ alg }) => {
         anchorReference="anchorPosition"
         transformOrigin={{ vertical: 25, horizontal: 'center' }}
       >
-        <MenuItem onClick={() => setMenuPosition(null)}>Copy</MenuItem>
+        <CopyToClipboard text={alg}>
+          <MenuItem onClick={() => setMenuPosition(null)}>Copy</MenuItem>
+        </CopyToClipboard>
         <MenuItem onClick={() => setMenuPosition(null)}>Edit</MenuItem>
         <MenuItem onClick={() => setMenuPosition(null)}>Delete</MenuItem>
       </Menu>
