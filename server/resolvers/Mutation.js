@@ -8,9 +8,18 @@ module.exports = {
     return algSet;
   },
   updateAlgSet: async (parent, { id, ...attrs }, { userId, mongo: { AlgSets } }) => {
-    const { value: algSet, ...k } = await AlgSets.findOneAndUpdate(
+    const { value: algSet } = await AlgSets.findOneAndUpdate(
       { _id: new ObjectId(id), createdById: userId },
       { $set: attrs },
+      { returnOriginal: false },
+    );
+    if (!algSet) throw new Error(`No alg set found with id ${id}`);
+    return algSet;
+  },
+  addAlgToAlgSet: async (parent, { id, alg }, { userId, mongo: { AlgSets } }) => {
+    const { value: algSet } = await AlgSets.findOneAndUpdate(
+      { _id: new ObjectId(id), createdById: userId },
+      { $addToSet: { algs: alg } },
       { returnOriginal: false },
     );
     if (!algSet) throw new Error(`No alg set found with id ${id}`);

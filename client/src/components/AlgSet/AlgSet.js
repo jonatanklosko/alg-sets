@@ -29,7 +29,7 @@ const AlgSet = ({ match }) => (
       const { algSet } = data;
 
       return (
-        <AlgFormDialog>
+        <AlgFormDialog algSetId={algSet.id}>
           {openDialogWith => (
             <Fragment>
               <Grid container alignItems="center">

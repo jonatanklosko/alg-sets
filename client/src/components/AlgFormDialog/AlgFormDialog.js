@@ -11,7 +11,16 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 
-const AlgFormDialog = ({ children }) => {
+const ADD_ALG_TO_ALG_SET_MUTATION = gql`
+  mutation AddAlgToAlgSet($id: ID!, $alg: String!) {
+    addAlgToAlgSet(id: $id, alg: $alg) {
+      id
+      algs
+    }
+  }
+`;
+
+const AlgFormDialog = ({ children, algSetId }) => {
   const [alg, setAlg] = useState(null);
   const close = () => setAlg(null);
   const open = !!alg || alg === '';
@@ -31,9 +40,17 @@ const AlgFormDialog = ({ children }) => {
           />
         </DialogContent>
         <DialogActions>
-          <Button disabled={!alg}>
-            Add
-          </Button>
+          <Mutation
+            mutation={ADD_ALG_TO_ALG_SET_MUTATION}
+            variables={{ id: algSetId, alg }}
+            onCompleted={close}
+          >
+          {(addAlgToAlgSet, { error, loading }) => (
+            <Button onClick={addAlgToAlgSet} disabled={!alg || loading}>
+              Add
+            </Button>
+          )}
+          </Mutation>
         </DialogActions>
       </Dialog>
     </Fragment>
