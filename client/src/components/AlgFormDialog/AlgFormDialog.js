@@ -11,6 +11,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 
+import { prettify } from '../../logic/moves';
+
 const ADD_ALG_TO_ALG_SET_MUTATION = gql`
   mutation AddAlgToAlgSet($id: ID!, $alg: String!) {
     addAlgToAlgSet(id: $id, alg: $alg) {
@@ -36,7 +38,7 @@ const AlgFormDialog = ({ children, algSetId }) => {
             fullWidth
             label="Alg"
             value={alg || ''}
-            onChange={event => setAlg(event.target.value)}
+            onChange={event => setAlg(prettify(event.target.value))}
           />
         </DialogContent>
         <DialogActions>
