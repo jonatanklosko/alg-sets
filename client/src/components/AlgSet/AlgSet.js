@@ -9,6 +9,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Typography from '@material-ui/core/Typography';
 
 import AlgCard from '../AlgCard/AlgCard';
+import AlgFormDialog from '../AlgFormDialog/AlgFormDialog';
 
 const ALG_SET_QUERY = gql`
   query AlgSet($id: ID!) {
@@ -28,30 +29,34 @@ const AlgSet = ({ match }) => (
       const { algSet } = data;
 
       return (
-        <Fragment>
-          <Grid container alignItems="center">
-            <Grid item style={{ flexGrow: 1 }}>
-              <Typography variant="h5">{algSet.name}</Typography>
-            </Grid>
-            <Grid item>
-              <IconButton>
-                <Icon>add</Icon>
-              </IconButton>
-              <CopyToClipboard text={window.location}>
-                <IconButton>
-                  <Icon>link</Icon>
-                </IconButton>
-              </CopyToClipboard>
-            </Grid>
-          </Grid>
-          <Grid container spacing={8}>
-            {algSet.algs.map(alg => (
-              <Grid item key={alg} xs={12} md={6} lg={3}>
-                <AlgCard alg={alg} />
+        <AlgFormDialog>
+          {openDialogWith => (
+            <Fragment>
+              <Grid container alignItems="center">
+                <Grid item style={{ flexGrow: 1 }}>
+                  <Typography variant="h5">{algSet.name}</Typography>
+                </Grid>
+                <Grid item>
+                  <IconButton onClick={() => openDialogWith('')}>
+                    <Icon>add</Icon>
+                  </IconButton>
+                  <CopyToClipboard text={window.location}>
+                    <IconButton>
+                      <Icon>link</Icon>
+                    </IconButton>
+                  </CopyToClipboard>
+                </Grid>
               </Grid>
-            ))}
-          </Grid>
-        </Fragment>
+              <Grid container spacing={8}>
+                {algSet.algs.map(alg => (
+                  <Grid item key={alg} xs={12} md={6} lg={3}>
+                    <AlgCard alg={alg} />
+                  </Grid>
+                ))}
+              </Grid>
+            </Fragment>
+          )}
+        </AlgFormDialog>
       );
     }}
   </Query>
