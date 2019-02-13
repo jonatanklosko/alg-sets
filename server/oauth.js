@@ -44,7 +44,11 @@ module.exports = ({ Users }) => {
     });
     const { me } = await meResponse.json();
     const user = userJsonToUser(me);
-    const { value: dbUser } = await Users.findOneAndReplace({ wcaUserId: user.wcaUserId }, user, { upsert: true });
+    const { value: dbUser } = await Users.findOneAndUpdate(
+      { wcaUserId: user.wcaUserId },
+      { $set: user },
+      { upsert: true, returnOriginal: false }
+    );
     res.cookie('userId', dbUser._id, {
       httpOnly: true,
       // secure: true,
