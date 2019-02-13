@@ -8,6 +8,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 
+import { algImageUrl } from '../../logic/utils';
+
 const AlgCard = ({ alg }) => {
   const [menuPosition, setMenuPosition] = useState(null);
   return (
@@ -16,7 +18,7 @@ const AlgCard = ({ alg }) => {
         <CardActionArea onClick={event => setMenuPosition({ left: event.clientX, top: event.clientY })}>
           <CardMedia
             component="img"
-            image={`http://cube.crider.co.uk/visualcube.php?fmt=svg&size=150&bg=t&pzl=3&alg=${alg}&sch=wrgyob&r=y34x-34`}
+            image={algImageUrl(alg)}
             height={150}
           />
           <CardContent>

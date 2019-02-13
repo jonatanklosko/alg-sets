@@ -12,6 +12,7 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 
 import { prettify } from '../../logic/moves';
+import { algImageUrl } from '../../logic/utils';
 
 const ADD_ALG_TO_ALG_SET_MUTATION = gql`
   mutation AddAlgToAlgSet($id: ID!, $alg: String!) {
@@ -32,7 +33,7 @@ const AlgFormDialog = ({ children, algSetId }) => {
       <Dialog open={open} onClose={close} fullWidth>
         <DialogTitle>{'Add new alg'}</DialogTitle>
         <DialogContent style={{ textAlign: 'center' }}>
-          <img src={`http://cube.crider.co.uk/visualcube.php?fmt=svg&size=150&bg=t&pzl=3&alg=${alg}&sch=wrgyob&r=y34x-34`} />
+          <img src={algImageUrl(alg)} />
           <TextField
             autoFocus
             fullWidth
