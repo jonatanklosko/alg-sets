@@ -13,6 +13,7 @@ import Icon from '@material-ui/core/Icon';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import AlgSetFormDialog from '../AlgSetFormDialog/AlgSetFormDialog';
+import ConfirmDialog from '../ConfirmDialog/ConfirmDialog';
 
 export const ALG_SETS_QUERY = gql`
   query {
@@ -69,9 +70,13 @@ const AlgSetList = () => (
                         }}
                       >
                         {(deleteAlgSet, { error, loading }) => (
-                          <Button size="small" color="secondary" onClick={deleteAlgSet} disabled={loading}>
-                            Delete
-                          </Button>
+                          <ConfirmDialog message={`This will permanently delete set: ${algSet.name}.`}>
+                            {confirm => (
+                              <Button size="small" color="secondary" onClick={confirm(deleteAlgSet)} disabled={loading}>
+                                Delete
+                              </Button>
+                            )}
+                          </ConfirmDialog>
                         )}
                       </Mutation>
                     </CardActions>
