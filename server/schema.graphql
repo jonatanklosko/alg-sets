@@ -1,6 +1,6 @@
 type Query {
-  hello(name: String): String!
   me: User
+  algSet(id: ID!): AlgSet
 }
 
 type Mutation {

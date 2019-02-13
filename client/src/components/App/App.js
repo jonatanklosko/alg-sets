@@ -10,6 +10,7 @@ import { ThemeProvider } from "@material-ui/styles";
 
 import Navigation from '../Navigation/Navigation';
 import AlgSetList from '../AlgSetList/AlgSetList';
+import AlgSet from '../AlgSet/AlgSet';
 
 const theme = createMuiTheme({
   palette: {
@@ -49,6 +50,7 @@ const App = () => (
         <Navigation>
           <Switch>
             <Route exact path="/alg-sets" component={AlgSetList} />
+            <Route exact path="/alg-sets/:id" component={AlgSet} />
           </Switch>
         </Navigation>
       </ThemeProvider>

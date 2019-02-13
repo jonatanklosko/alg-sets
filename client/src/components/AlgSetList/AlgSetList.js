@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -40,7 +41,7 @@ const AlgSetList = () => (
               {algSets.map(algSet => (
                 <Grid item key={algSet.id} xs={12} md={6} lg={3}>
                   <Card>
-                    <CardActionArea>
+                    <CardActionArea component={Link} to={`/alg-sets/${algSet.id}`}>
                       <CardHeader
                         title={algSet.name}
                         subheader={`Algs: ${algSet.algs.length}`}
