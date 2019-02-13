@@ -8,10 +8,11 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 
-import { algImageUrl } from '../../logic/utils';
+import { algImageUrl, algAnimationUrl } from '../../logic/utils';
 
 const AlgCard = ({ alg }) => {
   const [menuPosition, setMenuPosition] = useState(null);
+  const closeMenu = () => setMenuPosition(null);
   return (
     <Fragment>
       <Card>
@@ -36,10 +37,17 @@ const AlgCard = ({ alg }) => {
         transformOrigin={{ vertical: 25, horizontal: 'center' }}
       >
         <CopyToClipboard text={alg}>
-          <MenuItem onClick={() => setMenuPosition(null)}>Copy</MenuItem>
+          <MenuItem onClick={closeMenu}>Copy</MenuItem>
         </CopyToClipboard>
-        <MenuItem onClick={() => setMenuPosition(null)}>Edit</MenuItem>
-        <MenuItem onClick={() => setMenuPosition(null)}>Delete</MenuItem>
+        <MenuItem
+          component="a"
+          target="_blank"
+          href={algAnimationUrl(alg)}
+          onClick={closeMenu}
+        >
+          Animation
+        </MenuItem>
+        <MenuItem onClick={closeMenu}>Delete</MenuItem>
       </Menu>
     </Fragment>
   );

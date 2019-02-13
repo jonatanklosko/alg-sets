@@ -7,9 +7,15 @@ export const algImageUrl = alg => {
     size: 150,
     bg: 't',
     pzl: 3,
-    alg: shrink(alg),
+    case: shrink(alg),
     sch: 'wrgyob',
     r: 'y34x-34'
   });
   return `${IMAGE_BASE_URL}?${params.toString()}`;
+};
+
+export const algAnimationUrl = alg => {
+  const ANIMATION_BASE_URL = 'https://alg.cubing.net';
+  const params = new URLSearchParams({ alg, type: 'alg' });
+  return `${ANIMATION_BASE_URL}?${params.toString()}`;
 };

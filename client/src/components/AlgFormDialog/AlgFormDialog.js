@@ -2,13 +2,10 @@ import React, { useState, Fragment } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 
 import { prettify } from '../../logic/moves';
@@ -33,7 +30,7 @@ const AlgFormDialog = ({ children, algSetId }) => {
       <Dialog open={open} onClose={close} fullWidth>
         <DialogTitle>{'Add new alg'}</DialogTitle>
         <DialogContent style={{ textAlign: 'center' }}>
-          <img src={algImageUrl(alg)} />
+          <img src={algImageUrl(alg)} alt="Alg" />
           <TextField
             autoFocus
             fullWidth
