@@ -6,6 +6,7 @@ type Query {
 type Mutation {
   createAlgSet(name: String!, secret: Boolean!, algs: [String!]): AlgSet
   updateAlgSet(id: ID!, name: String, secret: Boolean, algs: [String!]): AlgSet
+  deleteAlgSet(id: ID!): AlgSet
   addAlgToAlgSet(id: ID!, alg: String!): AlgSet
 }
 

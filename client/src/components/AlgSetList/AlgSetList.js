@@ -1,5 +1,5 @@
 import React from 'react';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
@@ -23,6 +23,14 @@ export const ALG_SETS_QUERY = gql`
         secret
         algs
       }
+    }
+  }
+`;
+
+const DELETE_ALG_SET_MUTATION = gql`
+  mutation DeleteAlgSet($id: ID!) {
+    deleteAlgSet(id: $id) {
+      id
     }
   }
 `;
@@ -51,9 +59,21 @@ const AlgSetList = () => (
                       <Button size="small" color="primary" onClick={() => openDialogWith(algSet)}>
                         Edit
                       </Button>
-                      <Button size="small" color="secondary">
-                        Delete
-                      </Button>
+                      <Mutation
+                        mutation={DELETE_ALG_SET_MUTATION}
+                        variables={{ id: algSet.id }}
+                        update={(store, { data: { deleteAlgSet } }) => {
+                          const data = store.readQuery({ query: ALG_SETS_QUERY });
+                          data.me.algSets = data.me.algSets.filter(({ id }) => id !== deleteAlgSet.id);
+                          store.writeQuery({ query: ALG_SETS_QUERY, data });
+                        }}
+                      >
+                        {(deleteAlgSet, { error, loading }) => (
+                          <Button size="small" color="secondary" onClick={deleteAlgSet} disabled={loading}>
+                            Delete
+                          </Button>
+                        )}
+                      </Mutation>
                     </CardActions>
                   </Card>
                 </Grid>

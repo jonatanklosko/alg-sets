@@ -16,6 +16,13 @@ module.exports = {
     if (!algSet) throw new Error(`No alg set found with id ${id}`);
     return algSet;
   },
+  deleteAlgSet: async (parent, { id }, { userId, mongo: { AlgSets } }) => {
+    const { value: algSet } = await AlgSets.findOneAndDelete(
+      { _id: new ObjectId(id), createdById: userId }
+    );
+    if (!algSet) throw new Error(`No alg set found with id ${id}`);
+    return algSet;
+  },
   addAlgToAlgSet: async (parent, { id, alg }, { userId, mongo: { AlgSets } }) => {
     const { value: algSet } = await AlgSets.findOneAndUpdate(
       { _id: new ObjectId(id), createdById: userId },

@@ -17,11 +17,7 @@ const AlgCard = ({ alg }) => {
     <Fragment>
       <Card>
         <CardActionArea onClick={event => setMenuPosition({ left: event.clientX, top: event.clientY })}>
-          <CardMedia
-            component="img"
-            image={algImageUrl(alg)}
-            height={150}
-          />
+          <CardMedia component="img" image={algImageUrl(alg)} height={150} />
           <CardContent>
             <Typography variant="body1" style={{ textAlign: 'center' }}>
               {alg}
@@ -31,7 +27,7 @@ const AlgCard = ({ alg }) => {
       </Card>
       <Menu
         open={!!menuPosition}
-        onClose={() => setMenuPosition(null)}
+        onClose={closeMenu}
         anchorPosition={menuPosition}
         anchorReference="anchorPosition"
         transformOrigin={{ vertical: 25, horizontal: 'center' }}
