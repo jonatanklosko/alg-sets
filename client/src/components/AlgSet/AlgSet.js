@@ -1,7 +1,10 @@
 import React, { Fragment } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import CopyToClipboard from 'react-copy-to-clipboard';
 import Grid from '@material-ui/core/Grid';
+import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Typography from '@material-ui/core/Typography';
 
@@ -26,7 +29,21 @@ const AlgSet = ({ match }) => (
 
       return (
         <Fragment>
-          <Typography variant="h5" gutterBottom>{algSet.name}</Typography>
+          <Grid container alignItems="center">
+            <Grid item style={{ flexGrow: 1 }}>
+              <Typography variant="h5">{algSet.name}</Typography>
+            </Grid>
+            <Grid item>
+              <IconButton>
+                <Icon>add</Icon>
+              </IconButton>
+              <CopyToClipboard text={window.location}>
+                <IconButton>
+                  <Icon>link</Icon>
+                </IconButton>
+              </CopyToClipboard>
+            </Grid>
+          </Grid>
           <Grid container spacing={8}>
             {algSet.algs.map(alg => (
               <Grid item key={alg} xs={12} md={6} lg={3}>
