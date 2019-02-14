@@ -1,6 +1,7 @@
 type Query {
   me: User
   algSet(id: ID!): AlgSet
+  algSets: [AlgSet!]!
 }
 
 type Mutation {

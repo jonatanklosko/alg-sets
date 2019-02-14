@@ -8,4 +8,7 @@ module.exports = {
     /* TODO: use loader. Do we need to handle ownership requirement then? */
     return await AlgSets.findOne({ _id: new ObjectId(id), createdById: userId });
   },
+  algSets: async (parent, { id }, { userId, mongo: { AlgSets } }) => {
+    return await AlgSets.find({ secret: false }).toArray();
+  },
 };
