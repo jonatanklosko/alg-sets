@@ -8,7 +8,7 @@ export const algImageUrl = alg => {
     bg: 't',
     pzl: 3,
     case: shrink(alg),
-    sch: 'wrgyob',
+    sch: 'yrbwog',
     r: 'y34x-34'
   });
   return `${IMAGE_BASE_URL}?${params.toString()}`;
