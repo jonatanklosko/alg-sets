@@ -11,6 +11,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import Grid from '@material-ui/core/Grid';
 import Icon from '@material-ui/core/Icon';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import AlgSetFormDialog from '../AlgSetFormDialog/AlgSetFormDialog';
 import ConfirmDialog from '../ConfirmDialog/ConfirmDialog';
@@ -79,6 +80,13 @@ const AlgSetList = () => (
                           </ConfirmDialog>
                         )}
                       </Mutation>
+                      {algSet.secret &&
+                        <Tooltip title="Secret" placement="left">
+                          <Icon fontSize="small" color="disabled" style={{ marginLeft: 'auto'}}>
+                            lock
+                          </Icon>
+                        </Tooltip>
+                      }
                     </CardActions>
                   </Card>
                 </Grid>

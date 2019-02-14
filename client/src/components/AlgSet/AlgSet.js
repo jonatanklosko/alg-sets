@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 
 import AlgCard from '../AlgCard/AlgCard';
@@ -16,6 +17,7 @@ const ALG_SET_QUERY = gql`
     algSet(id: $id) {
       id
       name
+      secret
       algs
     }
   }
@@ -33,8 +35,17 @@ const AlgSet = ({ match }) => (
           {openDialogWith => (
             <Fragment>
               <Grid container alignItems="center">
-                <Grid item style={{ flexGrow: 1 }}>
+                <Grid item>
                   <Typography variant="h5">{algSet.name}</Typography>
+                </Grid>
+                <Grid item style={{ flexGrow: 1, marginLeft: 8 }}>
+                  {algSet.secret &&
+                    <Tooltip title="Secret" placement="right">
+                      <Icon fontSize="small" color="disabled">
+                        lock
+                      </Icon>
+                    </Tooltip>
+                  }
                 </Grid>
                 <Grid item>
                   <IconButton onClick={() => openDialogWith('')}>
