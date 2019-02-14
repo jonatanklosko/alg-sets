@@ -6,7 +6,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 
 import AlgSetCard from '../AlgSetCard/AlgSetCard';
 
-export const ALG_SETS_QUERY = gql`
+const ALG_SETS_QUERY = gql`
   query {
     me {
       id

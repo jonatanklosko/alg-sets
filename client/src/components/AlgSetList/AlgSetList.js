@@ -19,6 +19,7 @@ import ConfirmDialog from '../ConfirmDialog/ConfirmDialog';
 export const ALG_SETS_QUERY = gql`
   query {
     me {
+      id
       algSets {
         id
         name
