@@ -44,4 +44,14 @@ module.exports = {
       )
     );
   },
+  starAlgSet: async (parent, { id }, { userId, mongo: { Users, AlgSets } }) => {
+    const algSet = await AlgSets.findOne({ _id: new ObjectId(id) });
+    await Users.updateOne({ _id: userId }, { $addToSet: { starredAlgSetIds: algSet._id } });
+    return algSet;
+  },
+  unstarAlgSet: async (parent, { id }, { userId, mongo: { Users, AlgSets } }) => {
+    const algSet = await AlgSets.findOne({ _id: new ObjectId(id) });
+    await Users.updateOne({ _id: userId }, { $pull: { starredAlgSetIds: algSet._id } });
+    return algSet;
+  },
 };

@@ -10,6 +10,8 @@ type Mutation {
   deleteAlgSet(id: ID!): AlgSet
   addAlgToAlgSet(id: ID!, alg: String!): AlgSet
   removeAlgFromAlgSet(id: ID!, alg: String!): AlgSet
+  starAlgSet(id: ID!): AlgSet # Idea: return user instead? (maybe this could automatically update apollo cache)
+  unstarAlgSet(id: ID!): AlgSet
 }
 
 type User {
@@ -21,6 +23,7 @@ type User {
   avatar: Avatar!
   # Additional attributes
   algSets: [AlgSet!]!
+  starredAlgSets: [AlgSet!]!
 }
 
 type Avatar {
@@ -34,4 +37,5 @@ type AlgSet {
   secret: Boolean!
   createdBy: User!
   algs: [String!]!
+  stargazerIds: [ID!]!
 }
