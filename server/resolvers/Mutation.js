@@ -1,5 +1,10 @@
 const { ObjectId } = require('mongodb');
 
+const getDocument = ({ value }) => {
+  if (!value) throw new Error('Document not found.');
+  return value;
+};
+
 module.exports = {
   createAlgSet: async (parent, { name, secret, algs = [] }, { userId, mongo: { AlgSets } }) => {
     const { ops: [algSet] } = await AlgSets.insertOne(
@@ -8,37 +13,35 @@ module.exports = {
     return algSet;
   },
   updateAlgSet: async (parent, { id, ...attrs }, { userId, mongo: { AlgSets } }) => {
-    const { value: algSet } = await AlgSets.findOneAndUpdate(
-      { _id: new ObjectId(id), createdById: userId },
-      { $set: attrs },
-      { returnOriginal: false },
+    return getDocument(
+      await AlgSets.findOneAndUpdate(
+        { _id: new ObjectId(id), createdById: userId },
+        { $set: attrs },
+        { returnOriginal: false },
+      )
     );
-    if (!algSet) throw new Error(`No alg set found with id ${id}`);
-    return algSet;
   },
   deleteAlgSet: async (parent, { id }, { userId, mongo: { AlgSets } }) => {
-    const { value: algSet } = await AlgSets.findOneAndDelete(
-      { _id: new ObjectId(id), createdById: userId }
+    return getDocument(
+      await AlgSets.findOneAndDelete({ _id: new ObjectId(id), createdById: userId })
     );
-    if (!algSet) throw new Error(`No alg set found with id ${id}`);
-    return algSet;
   },
   addAlgToAlgSet: async (parent, { id, alg }, { userId, mongo: { AlgSets } }) => {
-    const { value: algSet } = await AlgSets.findOneAndUpdate(
-      { _id: new ObjectId(id), createdById: userId },
-      { $addToSet: { algs: alg } },
-      { returnOriginal: false },
+    return getDocument(
+      await AlgSets.findOneAndUpdate(
+        { _id: new ObjectId(id), createdById: userId },
+        { $addToSet: { algs: alg } },
+        { returnOriginal: false },
+      )
     );
-    if (!algSet) throw new Error(`No alg set found with id ${id}`);
-    return algSet;
   },
   removeAlgFromAlgSet: async (parent, { id, alg }, { userId, mongo: { AlgSets } }) => {
-    const { value: algSet } = await AlgSets.findOneAndUpdate(
-      { _id: new ObjectId(id), createdById: userId },
-      { $pull: { algs: alg } },
-      { returnOriginal: false },
+    return getDocument(
+      await AlgSets.findOneAndUpdate(
+        { _id: new ObjectId(id), createdById: userId },
+        { $pull: { algs: alg } },
+        { returnOriginal: false },
+      )
     );
-    if (!algSet) throw new Error(`No alg set found with id ${id}`);
-    return algSet;
   },
 };
