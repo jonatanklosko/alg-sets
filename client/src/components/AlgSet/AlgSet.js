@@ -34,7 +34,7 @@ const AlgSet = ({ match }) => (
         <AlgFormDialog algSetId={algSet.id}>
           {openDialogWith => (
             <Fragment>
-              <Grid container alignItems="center">
+              <Grid container alignItems="center" style={{ marginBottom: 8 }}>
                 <Grid item>
                   <Typography variant="h5">{algSet.name}</Typography>
                 </Grid>
