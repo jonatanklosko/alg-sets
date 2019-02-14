@@ -19,3 +19,8 @@ export const algAnimationUrl = alg => {
   const params = new URLSearchParams({ alg, type: 'alg' });
   return `${ANIMATION_BASE_URL}?${params.toString()}`;
 };
+
+export const preventDefault = fn => event => {
+  event.preventDefault();
+  fn();
+};
