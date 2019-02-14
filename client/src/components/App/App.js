@@ -11,6 +11,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import Navigation from '../Navigation/Navigation';
 import AlgSetList from '../AlgSetList/AlgSetList';
 import AlgSet from '../AlgSet/AlgSet';
+import StarredAlgSetList from '../StarredAlgSetList/StarredAlgSetList';
 import Explore from '../Explore/Explore';
 
 const theme = createMuiTheme({
@@ -52,6 +53,7 @@ const App = () => (
           <Switch>
             <Route exact path="/alg-sets" component={AlgSetList} />
             <Route exact path="/alg-sets/:id" component={AlgSet} />
+            <Route exact path="/starred" component={StarredAlgSetList} />
             <Route path="/explore" component={Explore} />
           </Switch>
         </Navigation>
