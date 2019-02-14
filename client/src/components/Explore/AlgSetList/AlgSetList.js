@@ -8,6 +8,9 @@ import AlgSetCard from '../AlgSetCard/AlgSetCard';
 
 export const ALG_SETS_QUERY = gql`
   query {
+    me {
+      id
+    }
     algSets {
       id
       name
@@ -18,6 +21,9 @@ export const ALG_SETS_QUERY = gql`
           thumbUrl
         }
       }
+      stargazers {
+        id
+      }
     }
   }
 `;
@@ -27,13 +33,13 @@ const AlgSetList = () => (
     {({ error, loading, data }) => {
       if (error) return <div>Error</div>
       if (loading) return <LinearProgress />
-      const { algSets } = data;
+      const { algSets, me } = data;
 
       return (
         <Grid container spacing={8}>
           {algSets.map(algSet => (
             <Grid item key={algSet.id} xs={12} md={6} lg={4}>
-              <AlgSetCard algSet={algSet} />
+              <AlgSetCard algSet={algSet} currentUserId={me && me.id} />
             </Grid>
           ))}
         </Grid>
