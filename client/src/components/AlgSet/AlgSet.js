@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 
 import AlgCard from '../AlgCard/AlgCard';
 import AlgFormDialog from '../AlgFormDialog/AlgFormDialog';
+import ImportExportDialog from '../ImportExportDialog/ImportExportDialog';
 import StarButton from '../StarButton/StarButton';
 
 const ALG_SET_QUERY = gql`
@@ -42,46 +43,55 @@ const AlgSet = ({ match }) => (
       const isOwner = me && me.id === algSet.owner.id;
 
       return (
-        <AlgFormDialog algSetId={algSet.id}>
-          {openDialogWith => (
-            <Fragment>
-              <Grid container alignItems="center" style={{ marginBottom: 8 }}>
-                <Grid item>
-                  <Typography variant="h5">{algSet.name}</Typography>
-                </Grid>
-                <Grid item style={{ flexGrow: 1, marginLeft: 8 }}>
-                  {algSet.secret &&
-                    <Tooltip title="Secret" placement="right">
-                      <Icon fontSize="small" color="disabled">
-                        lock
-                      </Icon>
-                    </Tooltip>
-                  }
-                </Grid>
-                <Grid item>
-                  {isOwner && (
-                    <IconButton onClick={() => openDialogWith('')}>
-                      <Icon>add</Icon>
-                    </IconButton>
-                  )}
-                  <CopyToClipboard text={window.location}>
-                    <IconButton>
-                      <Icon>link</Icon>
-                    </IconButton>
-                  </CopyToClipboard>
-                  <StarButton algSet={algSet} currentUserId={me && me.id} />
-                </Grid>
+        <Fragment>
+          <Grid container alignItems="center" style={{ marginBottom: 8 }}>
+            <Grid item>
+              <Typography variant="h5">{algSet.name}</Typography>
+            </Grid>
+            <Grid item style={{ flexGrow: 1, marginLeft: 8 }}>
+              {algSet.secret &&
+                <Tooltip title="Secret" placement="right">
+                  <Icon fontSize="small" color="disabled">
+                    lock
+                  </Icon>
+                </Tooltip>
+              }
+            </Grid>
+            <Grid item>
+              {isOwner && (
+                <Fragment>
+                  <AlgFormDialog algSetId={algSet.id}>
+                    {openDialogWith => (
+                      <IconButton onClick={() => openDialogWith('')}>
+                        <Icon>add</Icon>
+                      </IconButton>
+                    )}
+                  </AlgFormDialog>
+                  <ImportExportDialog algSetId={algSet.id}>
+                    {openDialogWith => (
+                      <IconButton onClick={() => openDialogWith(algSet.algs)}>
+                        <Icon>import_export</Icon>
+                      </IconButton>
+                    )}
+                  </ImportExportDialog>
+                </Fragment>
+              )}
+              <CopyToClipboard text={window.location}>
+                <IconButton>
+                  <Icon>link</Icon>
+                </IconButton>
+              </CopyToClipboard>
+              <StarButton algSet={algSet} currentUserId={me && me.id} />
+            </Grid>
+          </Grid>
+          <Grid container spacing={8}>
+            {algSet.algs.map(alg => (
+              <Grid item key={alg} xs={12} md={6} lg={3}>
+                <AlgCard alg={alg} algSetId={algSet.id} isOwner={isOwner} />
               </Grid>
-              <Grid container spacing={8}>
-                {algSet.algs.map(alg => (
-                  <Grid item key={alg} xs={12} md={6} lg={3}>
-                    <AlgCard alg={alg} algSetId={algSet.id} isOwner={isOwner} />
-                  </Grid>
-                ))}
-              </Grid>
-            </Fragment>
-          )}
-        </AlgFormDialog>
+            ))}
+          </Grid>
+        </Fragment>
       );
     }}
   </Query>
