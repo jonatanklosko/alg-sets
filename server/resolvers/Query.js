@@ -8,6 +8,6 @@ module.exports = {
     return await algSetLoader.load(new ObjectId(id));
   },
   algSets: async (parent, { id }, { userId, mongo: { AlgSets } }) => {
-    return await AlgSets.find({ secret: false }).toArray();
+    return await AlgSets.find({ secret: false, algs: { $ne: [] } }).toArray();
   },
 };
