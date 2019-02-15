@@ -4,6 +4,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
 import AlgSetList from './AlgSetList/AlgSetList';
+import AlgList from './AlgList/AlgList';
 
 const Explore = ({ location }) => (
   <Fragment>
@@ -14,7 +15,7 @@ const Explore = ({ location }) => (
     </Tabs>
     <Switch>
       <Route exact path="/explore/alg-sets" component={AlgSetList} />
-      <Route exact path="/explore/algs" render={() => "Algs"} />
+      <Route exact path="/explore/algs" component={AlgList} />
       <Route exact path="/explore/people" render={() => "People"} />
       <Redirect to="/explore/alg-sets" />
     </Switch>

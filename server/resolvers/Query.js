@@ -10,4 +10,15 @@ module.exports = {
   algSets: async (parent, { id }, { userId, mongo: { AlgSets } }) => {
     return await AlgSets.find({ secret: false, algs: { $ne: [] } }).toArray();
   },
+  randomAlgs: async (parent, { count }, { mongo: { AlgSets } }) => {
+    const result = await AlgSets.aggregate([
+      { $match: { secret: false, algs: { $ne: [] } } },
+      { $project: { algs: 1, _id: 0 } },
+      { $sample: { size: count } },
+      { $unwind: '$algs' },
+      { $sample: { size: count } },
+      { $project: { 'algs': 1 } }
+    ]).toArray();
+    return result.map(({ algs }) => algs);
+  },
 };
