@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import Grid from '@material-ui/core/Grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-import AlgSetCard from '../AlgSetCard/AlgSetCard';
+import AlgSetCard, { ALG_SET_CARD_DATA_FRAGMENT } from '../AlgSetCard/AlgSetCard';
 
 const ALG_SETS_QUERY = gql`
   query {
@@ -12,20 +12,10 @@ const ALG_SETS_QUERY = gql`
       id
     }
     algSets {
-      id
-      name
-      algs
-      createdBy {
-        name
-        avatar {
-          thumbUrl
-        }
-      }
-      stargazers {
-        id
-      }
+      ...algSetCardData
     }
   }
+  ${ALG_SET_CARD_DATA_FRAGMENT}
 `;
 
 const AlgSetList = () => (

@@ -4,28 +4,18 @@ import gql from 'graphql-tag';
 import Grid from '@material-ui/core/Grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-import AlgSetCard from '../Explore/AlgSetCard/AlgSetCard';
+import AlgSetCard, { ALG_SET_CARD_DATA_FRAGMENT } from '../Explore/AlgSetCard/AlgSetCard';
 
 export const STARRED_ALG_SETS_QUERY = gql`
   query {
     me {
       id
       starredAlgSets {
-        id
-        name
-        algs
-        createdBy {
-          name
-          avatar {
-            thumbUrl
-          }
-        }
-        stargazers {
-          id
-        }
+        ...algSetCardData
       }
     }
   }
+  ${ALG_SET_CARD_DATA_FRAGMENT}
 `;
 
 const AlgSetList = () => (

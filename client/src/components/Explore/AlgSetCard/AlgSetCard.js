@@ -14,23 +14,30 @@ import IconButton from '@material-ui/core/IconButton';
 
 import { STARRED_ALG_SETS_QUERY } from '../../StarredAlgSetList/StarredAlgSetList';
 
+export const ALG_SET_CARD_DATA_FRAGMENT = gql`
+  fragment algSetCardData on AlgSet {
+    id
+    name
+    algs
+    createdBy {
+      name
+      avatar {
+        thumbUrl
+      }
+    }
+    stargazers {
+      id
+    }
+  }
+`;
+
 const STAR_ALG_SET_MUTATION = gql`
   mutation StarAlgSet($id: ID!) {
     starAlgSet(id: $id) {
-      id
-      name
-      algs
-      createdBy {
-        name
-        avatar {
-          thumbUrl
-        }
-      }
-      stargazers {
-        id
-      }
+      ...algSetCardData
     }
   }
+  ${ALG_SET_CARD_DATA_FRAGMENT}
 `;
 
 const UNSTAR_ALG_SET_MUTATION = gql`
