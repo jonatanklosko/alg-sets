@@ -4,7 +4,8 @@ import gql from 'graphql-tag';
 import Grid from '@material-ui/core/Grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-import AlgSetCard, { ALG_SET_CARD_DATA_FRAGMENT } from '../AlgSetCard/AlgSetCard';
+import AlgSetCard from '../AlgSetCard/AlgSetCard';
+import { ALG_SET_CARD_DATA_FRAGMENT } from '../AlgSetCard/fragments';
 
 const ALG_SETS_QUERY = gql`
   query {
