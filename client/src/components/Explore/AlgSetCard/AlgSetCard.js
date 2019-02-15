@@ -15,12 +15,12 @@ const AlgSetCard = ({ algSet, currentUserId }) => {
       <CardActionArea component={Link} to={`/alg-sets/${algSet.id}`}>
         <CardHeader
           avatar={
-            <Avatar src={algSet.creator.avatar.thumbUrl} />
+            <Avatar src={algSet.owner.avatar.thumbUrl} />
           }
           title={algSet.name}
           subheader={
             <Grid container direction="column">
-              <Grid item>Created by {algSet.creator.name}</Grid>
+              <Grid item>Created by {algSet.owner.name}</Grid>
               <Grid item>Algs: {algSet.algs.length}</Grid>
             </Grid>
           }

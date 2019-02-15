@@ -22,7 +22,7 @@ const REMOVE_ALG_FROM_ALG_SET_MUTATION = gql`
   }
 `;
 
-const AlgCard = ({ alg, algSetId, isCreator }) => {
+const AlgCard = ({ alg, algSetId, isOwner }) => {
   const [menuPosition, setMenuPosition] = useState(null);
   const closeMenu = () => setMenuPosition(null);
   return (
@@ -55,7 +55,7 @@ const AlgCard = ({ alg, algSetId, isCreator }) => {
         >
           Animation
         </MenuItem>
-        {isCreator && (
+        {isOwner && (
           <Mutation
             mutation={REMOVE_ALG_FROM_ALG_SET_MUTATION}
             variables={{ id: algSetId, alg }}

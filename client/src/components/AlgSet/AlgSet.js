@@ -23,7 +23,7 @@ const ALG_SET_QUERY = gql`
       name
       secret
       algs
-      creator {
+      owner {
         id
       }
       stargazers {
@@ -39,7 +39,7 @@ const AlgSet = ({ match }) => (
       if (error) return <div>Error</div>;
       if (loading) return <LinearProgress />;
       const { algSet, me } = data;
-      const isCreator = me && me.id === algSet.creator.id;
+      const isOwner = me && me.id === algSet.owner.id;
 
       return (
         <AlgFormDialog algSetId={algSet.id}>
@@ -59,7 +59,7 @@ const AlgSet = ({ match }) => (
                   }
                 </Grid>
                 <Grid item>
-                  {isCreator && (
+                  {isOwner && (
                     <IconButton onClick={() => openDialogWith('')}>
                       <Icon>add</Icon>
                     </IconButton>
@@ -75,7 +75,7 @@ const AlgSet = ({ match }) => (
               <Grid container spacing={8}>
                 {algSet.algs.map(alg => (
                   <Grid item key={alg} xs={12} md={6} lg={3}>
-                    <AlgCard alg={alg} algSetId={algSet.id} isCreator={isCreator} />
+                    <AlgCard alg={alg} algSetId={algSet.id} isOwner={isOwner} />
                   </Grid>
                 ))}
               </Grid>

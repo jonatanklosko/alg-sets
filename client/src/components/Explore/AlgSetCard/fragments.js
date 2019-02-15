@@ -5,7 +5,7 @@ export const ALG_SET_CARD_DATA_FRAGMENT = gql`
     id
     name
     algs
-    creator {
+    owner {
       id
       name
       avatar {
