@@ -19,7 +19,7 @@ export const ALG_SET_CARD_DATA_FRAGMENT = gql`
     id
     name
     algs
-    createdBy {
+    creator {
       name
       avatar {
         thumbUrl
@@ -58,12 +58,12 @@ const AlgSetCard = ({ algSet, currentUserId }) => {
       <CardActionArea component={Link} to={`/alg-sets/${algSet.id}`}>
         <CardHeader
           avatar={
-            <Avatar src={algSet.createdBy.avatar.thumbUrl} />
+            <Avatar src={algSet.creator.avatar.thumbUrl} />
           }
           title={algSet.name}
           subheader={
             <Grid container direction="column">
-              <Grid item>Created by {algSet.createdBy.name}</Grid>
+              <Grid item>Created by {algSet.creator.name}</Grid>
               <Grid item>Algs: {algSet.algs.length}</Grid>
             </Grid>
           }

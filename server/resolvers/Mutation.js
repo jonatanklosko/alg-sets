@@ -8,14 +8,14 @@ const getDocument = ({ value }) => {
 module.exports = {
   createAlgSet: async (parent, { name, secret, algs = [] }, { userId, mongo: { AlgSets } }) => {
     const { ops: [algSet] } = await AlgSets.insertOne(
-      { createdById: userId, name, secret, algs }
+      { creatorId: userId, name, secret, algs }
     );
     return algSet;
   },
   updateAlgSet: async (parent, { id, ...attrs }, { userId, mongo: { AlgSets } }) => {
     return getDocument(
       await AlgSets.findOneAndUpdate(
-        { _id: new ObjectId(id), createdById: userId },
+        { _id: new ObjectId(id), creatorId: userId },
         { $set: attrs },
         { returnOriginal: false },
       )
@@ -23,13 +23,13 @@ module.exports = {
   },
   deleteAlgSet: async (parent, { id }, { userId, mongo: { AlgSets } }) => {
     return getDocument(
-      await AlgSets.findOneAndDelete({ _id: new ObjectId(id), createdById: userId })
+      await AlgSets.findOneAndDelete({ _id: new ObjectId(id), creatorId: userId })
     );
   },
   addAlgToAlgSet: async (parent, { id, alg }, { userId, mongo: { AlgSets } }) => {
     return getDocument(
       await AlgSets.findOneAndUpdate(
-        { _id: new ObjectId(id), createdById: userId },
+        { _id: new ObjectId(id), creatorId: userId },
         { $addToSet: { algs: alg } },
         { returnOriginal: false },
       )
@@ -38,7 +38,7 @@ module.exports = {
   removeAlgFromAlgSet: async (parent, { id, alg }, { userId, mongo: { AlgSets } }) => {
     return getDocument(
       await AlgSets.findOneAndUpdate(
-        { _id: new ObjectId(id), createdById: userId },
+        { _id: new ObjectId(id), creatorId: userId },
         { $pull: { algs: alg } },
         { returnOriginal: false },
       )
