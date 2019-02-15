@@ -7,7 +7,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardHeader from '@material-ui/core/CardHeader';
 import Grid from '@material-ui/core/Grid';
 
-import StarButton from '../../StarButton/StarButton';
+import StarButton from '../StarButton/StarButton';
 
 const AlgSetCard = ({ algSet, currentUserId }) => {
   return (
