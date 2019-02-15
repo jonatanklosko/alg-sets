@@ -39,6 +39,7 @@ const AlgSet = ({ match }) => (
       if (error) return <div>Error</div>;
       if (loading) return <LinearProgress />;
       const { algSet, me } = data;
+      const isCreator = me && me.id === algSet.creator.id;
 
       return (
         <AlgFormDialog algSetId={algSet.id}>
@@ -58,7 +59,7 @@ const AlgSet = ({ match }) => (
                   }
                 </Grid>
                 <Grid item>
-                  {me && me.id === algSet.creator.id && (
+                  {isCreator && (
                     <IconButton onClick={() => openDialogWith('')}>
                       <Icon>add</Icon>
                     </IconButton>
@@ -74,7 +75,7 @@ const AlgSet = ({ match }) => (
               <Grid container spacing={8}>
                 {algSet.algs.map(alg => (
                   <Grid item key={alg} xs={12} md={6} lg={3}>
-                    <AlgCard alg={alg} algSetId={algSet.id} />
+                    <AlgCard alg={alg} algSetId={algSet.id} isCreator={isCreator} />
                   </Grid>
                 ))}
               </Grid>

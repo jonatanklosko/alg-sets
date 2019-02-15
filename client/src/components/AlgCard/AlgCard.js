@@ -22,7 +22,7 @@ const REMOVE_ALG_FROM_ALG_SET_MUTATION = gql`
   }
 `;
 
-const AlgCard = ({ alg, algSetId }) => {
+const AlgCard = ({ alg, algSetId, isCreator }) => {
   const [menuPosition, setMenuPosition] = useState(null);
   const closeMenu = () => setMenuPosition(null);
   return (
@@ -55,20 +55,22 @@ const AlgCard = ({ alg, algSetId }) => {
         >
           Animation
         </MenuItem>
-        <Mutation
-          mutation={REMOVE_ALG_FROM_ALG_SET_MUTATION}
-          variables={{ id: algSetId, alg }}
-        >
-          {(removeAlgFromAlgSet, { error, loading }) => (
-            <ConfirmDialog message="Are you sure you want to delete this alg?" onClose={closeMenu}>
-              {confirm => (
-                <MenuItem onClick={confirm(removeAlgFromAlgSet)} disabled={loading}>
-                  Delete
-                </MenuItem>
-              )}
-            </ConfirmDialog>
-          )}
-        </Mutation>
+        {isCreator && (
+          <Mutation
+            mutation={REMOVE_ALG_FROM_ALG_SET_MUTATION}
+            variables={{ id: algSetId, alg }}
+          >
+            {(removeAlgFromAlgSet, { error, loading }) => (
+              <ConfirmDialog message="Are you sure you want to delete this alg?" onClose={closeMenu}>
+                {confirm => (
+                  <MenuItem onClick={confirm(removeAlgFromAlgSet)} disabled={loading}>
+                    Delete
+                  </MenuItem>
+                )}
+              </ConfirmDialog>
+            )}
+          </Mutation>
+        )}
       </Menu>
     </Fragment>
   );
