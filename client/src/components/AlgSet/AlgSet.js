@@ -23,6 +23,9 @@ const ALG_SET_QUERY = gql`
       name
       secret
       algs
+      creator {
+        id
+      }
       stargazers {
         id
       }
@@ -55,9 +58,11 @@ const AlgSet = ({ match }) => (
                   }
                 </Grid>
                 <Grid item>
-                  <IconButton onClick={() => openDialogWith('')}>
-                    <Icon>add</Icon>
-                  </IconButton>
+                  {me && me.id === algSet.creator.id && (
+                    <IconButton onClick={() => openDialogWith('')}>
+                      <Icon>add</Icon>
+                    </IconButton>
+                  )}
                   <CopyToClipboard text={window.location}>
                     <IconButton>
                       <Icon>link</Icon>

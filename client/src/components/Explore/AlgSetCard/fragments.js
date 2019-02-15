@@ -6,6 +6,7 @@ export const ALG_SET_CARD_DATA_FRAGMENT = gql`
     name
     algs
     creator {
+      id
       name
       avatar {
         thumbUrl
