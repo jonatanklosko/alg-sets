@@ -5,6 +5,12 @@ const batchUsers = async (Users, ids) => {
   return ids.map(id => users.find(user => user._id.equals(id)));
 };
 
-module.exports = ({ Users }) => ({
+const batchAlgSets = async (AlgSets, ids) => {
+  const algSets = await AlgSets.find({ _id: { $in: ids } }).toArray();
+  return ids.map(id => algSets.find(algSet => algSet._id.equals(id)));
+};
+
+module.exports = ({ Users, AlgSets }) => ({
   userLoader: new DataLoader(ids => batchUsers(Users, ids), { cacheKeyFn: key => key.toString() }),
+  algSetLoader: new DataLoader(ids => batchAlgSets(AlgSets, ids), { cacheKeyFn: key => key.toString() }),
 });

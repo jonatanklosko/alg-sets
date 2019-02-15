@@ -3,7 +3,7 @@ module.exports = {
   algSets: async (parent, args, { mongo: { AlgSets } }) => {
     return await AlgSets.find({ createdById: parent._id }).toArray();
   },
-  starredAlgSets: async (parent, args, { mongo: { AlgSets } }) => {
-    return await AlgSets.find({ _id: { $in: parent.starredAlgSetIds } }).toArray();
+  starredAlgSets: async (parent, args, { dataloaders: { algSetLoader } }) => {
+    return await algSetLoader.loadMany(parent.starredAlgSetIds);
   },
 };
