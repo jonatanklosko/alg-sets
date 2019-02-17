@@ -24,3 +24,6 @@ export const preventDefault = fn => event => {
   event.preventDefault();
   fn();
 };
+
+export const pluralize = (count, singular, plural) =>
+  `${count} ${count === 1 ? singular : (plural || singular + 's')}`

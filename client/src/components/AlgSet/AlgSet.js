@@ -14,6 +14,7 @@ import AlgCard from '../AlgCard/AlgCard';
 import AlgFormDialog from '../AlgFormDialog/AlgFormDialog';
 import ImportExportDialog from '../ImportExportDialog/ImportExportDialog';
 import StarButton from '../StarButton/StarButton';
+import { pluralize } from '../../logic/utils';
 
 const ALG_SET_QUERY = gql`
   query AlgSet($id: ID!) {
@@ -72,8 +73,8 @@ const AlgSet = ({ match }) => (
               </Grid>
               <Typography variant="caption">
                 {isOwner
-                  ? `Includes ${algSet.algs.length} algs`
-                  : `Created by ${algSet.owner.name}, includes ${algSet.algs.length} algs`
+                  ? `Includes ${pluralize(algSet.algs.length, 'alg')}`
+                  : `Created by ${algSet.owner.name}, includes ${pluralize(algSet.algs.length, 'alg')}`
                 }
               </Typography>
             </Grid>
