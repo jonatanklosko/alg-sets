@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
-export const ALG_SET_CARD_DATA_FRAGMENT = gql`
-  fragment algSetCardData on AlgSet {
+export const ALG_SET_DATA_FRAGMENT = gql`
+  fragment algSetData on AlgSet {
     id
     name
     algs

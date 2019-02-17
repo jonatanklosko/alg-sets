@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import AlgSetCard from '../../AlgSetCard/AlgSetCard';
-import { ALG_SET_CARD_DATA_FRAGMENT } from '../../AlgSetCard/fragments';
+import { ALG_SET_DATA_FRAGMENT } from '../../../logic/graphql-fragments';
 
 const ALG_SETS_QUERY = gql`
   query {
@@ -13,10 +13,10 @@ const ALG_SETS_QUERY = gql`
       id
     }
     algSets {
-      ...algSetCardData
+      ...algSetData
     }
   }
-  ${ALG_SET_CARD_DATA_FRAGMENT}
+  ${ALG_SET_DATA_FRAGMENT}
 `;
 
 const AlgSetList = () => (

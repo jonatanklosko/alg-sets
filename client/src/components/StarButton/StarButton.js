@@ -6,15 +6,15 @@ import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 
 import { STARRED_ALG_SETS_QUERY } from '../StarredAlgSetList/StarredAlgSetList';
-import { ALG_SET_CARD_DATA_FRAGMENT } from '../AlgSetCard/fragments';
+import { ALG_SET_DATA_FRAGMENT } from '../../logic/graphql-fragments';
 
 const STAR_ALG_SET_MUTATION = gql`
   mutation StarAlgSet($id: ID!) {
     starAlgSet(id: $id) {
-      ...algSetCardData
+      ...algSetData
     }
   }
-  ${ALG_SET_CARD_DATA_FRAGMENT}
+  ${ALG_SET_DATA_FRAGMENT}
 `;
 
 const UNSTAR_ALG_SET_MUTATION = gql`

@@ -15,6 +15,7 @@ import AlgFormDialog from '../AlgFormDialog/AlgFormDialog';
 import ImportExportDialog from '../ImportExportDialog/ImportExportDialog';
 import StarButton from '../StarButton/StarButton';
 import { pluralize } from '../../logic/utils';
+import { ALG_SET_DATA_FRAGMENT } from '../../logic/graphql-fragments';
 
 const ALG_SET_QUERY = gql`
   query AlgSet($id: ID!) {
@@ -22,22 +23,11 @@ const ALG_SET_QUERY = gql`
       id
     }
     algSet(id: $id) {
-      id
-      name
       secret
-      algs
-      owner {
-        id
-        name
-        avatar {
-          thumbUrl
-        }
-      }
-      stargazers {
-        id
-      }
+      ...algSetData
     }
   }
+  ${ALG_SET_DATA_FRAGMENT}
 `;
 
 const AlgSet = ({ match }) => (
