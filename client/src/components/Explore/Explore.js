@@ -11,12 +11,10 @@ const Explore = ({ location }) => (
     <Tabs value={location.pathname} centered style={{ marginBottom: 16 }}>
       <Tab label="Alg sets" value="/explore/alg-sets" component={Link} to="/explore/alg-sets" />
       <Tab label="Algs" value="/explore/algs" component={Link} to="/explore/algs" />
-      <Tab label="People" value="/explore/people" component={Link} to="/explore/people" />
     </Tabs>
     <Switch>
       <Route exact path="/explore/alg-sets" component={AlgSetList} />
       <Route exact path="/explore/algs" component={AlgList} />
-      <Route exact path="/explore/people" render={() => "People"} />
       <Redirect to="/explore/alg-sets" />
     </Switch>
   </Fragment>

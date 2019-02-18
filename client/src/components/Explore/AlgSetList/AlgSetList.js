@@ -41,10 +41,10 @@ const AlgSetList = () => {
           </IconButton>
         </Paper>
       </Grid>
-      <Query query={ALG_SETS_QUERY} variables={{ filter }}>
+      <Query query={ALG_SETS_QUERY} variables={{ filter }} context={filter ? { debounceKey: 'explore-alg-sets' } : {}}>
         {({ error, loading, data }) => {
-          if (error) return <div>Error</div>
-          if (loading) return <LinearProgress />
+          if (error) return <div>Error</div>;
+          if (loading) return <Grid item xs={12}><LinearProgress /></Grid>;
           const { algSets, me } = data;
 
           return algSets.map(algSet => (

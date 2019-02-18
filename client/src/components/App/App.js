@@ -1,7 +1,9 @@
 import React from 'react';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
+import { ApolloLink } from 'apollo-link';
 import { createHttpLink } from 'apollo-link-http';
+import DebounceLink from 'apollo-link-debounce';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -39,8 +41,13 @@ const httpLink = createHttpLink({
   credentials: 'include', // 'same-origin' in production
 });
 
+const link = new ApolloLink.from([
+  new DebounceLink(250),
+  httpLink,
+]);
+
 const client = new ApolloClient({
-  link: httpLink,
+  link,
   cache: new InMemoryCache(),
 });
 
