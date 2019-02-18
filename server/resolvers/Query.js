@@ -9,7 +9,7 @@ module.exports = {
   },
   algSets: async (parent, { filter = '', offset = 0, limit = 10 }, { userId, mongo: { AlgSets } }) => {
     const regexp = new RegExp(filter.split(/\s+/).join('|'), 'gi');
-    return await AlgSets.aggregate([
+    const [result] = await AlgSets.aggregate([
       { $match:  { secret: false, algs: { $ne: [] } } },
       { $lookup: { from: 'users', localField: 'ownerId', foreignField: '_id', as: 'owner' } },
       { $addFields: { owner: { $arrayElemAt: ['$owner', 0] } } },
@@ -19,10 +19,18 @@ module.exports = {
       ] } },
       { $lookup: { from: 'users', localField: '_id', foreignField: 'starredAlgSetIds', as: 'stargazers' } },
       { $addFields: { starCount: { $size: '$stargazers' } } },
-      { $sort: { starCount: -1, _id: 1 } },
-      { $skip: offset },
-      { $limit: Math.min(limit, 100) },
+      { $facet: {
+        edges: [
+          { $sort: { starCount: -1, _id: 1 } },
+          { $skip: offset },
+          { $limit: Math.min(limit, 100) },
+        ],
+        totalCount: [{ $count: 'count' }],
+      } },
+      { $addFields: { totalCount: { $arrayElemAt: ['$totalCount', 0] } } },
+      { $addFields: { totalCount: { $cond: { if: '$totalCount.count', then: '$totalCount.count', else: 0 } } } }
     ]).toArray();
+    return result;
   },
   randomAlgs: async (parent, { count }, { mongo: { AlgSets } }) => {
     const result = await AlgSets.aggregate([

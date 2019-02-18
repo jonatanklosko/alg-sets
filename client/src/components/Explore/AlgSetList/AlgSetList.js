@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import InputBase from '@material-ui/core/InputBase';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
 import AlgSetCard from '../../AlgSetCard/AlgSetCard';
 import { ALG_SET_DATA_FRAGMENT } from '../../../logic/graphql-fragments';
@@ -18,7 +19,10 @@ const ALG_SETS_QUERY = gql`
       id
     }
     algSets(filter: $filter, offset: $offset, limit: $limit) {
-      ...algSetData
+      edges {
+        ...algSetData
+      }
+      totalCount
     }
   }
   ${ALG_SET_DATA_FRAGMENT}
@@ -54,28 +58,39 @@ const AlgSetList = () => {
 
           return (
             <Fragment>
-              {algSets.map(algSet => (
+              <Grid item xs={12}>
+                <Typography variant="caption">{algSets.totalCount} alg sets found</Typography>
+              </Grid>
+              {algSets.edges.map(algSet => (
                 <Grid item key={algSet.id} xs={12} md={6} lg={4}>
                   <AlgSetCard algSet={algSet} currentUserId={me && me.id} />
                 </Grid>
               ))}
-              <Grid item xs={12} style={{ textAlign: 'center' }}>
-                <Button
-                  variant="outlined"
-                  onClick={() =>
-                    fetchMore({
-                      variables: { offset: algSets.length },
-                      updateQuery: (prev, { fetchMoreResult }) => {
-                        if (!fetchMoreResult) return prev;
-                        return { ...prev, algSets: [...prev.algSets, ...fetchMoreResult.algSets] };
-                      }
-                    })
-                  }
-                >
-                  Load more
-                  <Icon style={{ marginLeft: 8 }}>expand_more</Icon>
-                </Button>
-              </Grid>
+              {algSets.edges.length < algSets.totalCount && (
+                <Grid item xs={12} style={{ textAlign: 'center' }}>
+                  <Button
+                    variant="outlined"
+                    onClick={() =>
+                      fetchMore({
+                        variables: { offset: algSets.edges.length },
+                        updateQuery: (prev, { fetchMoreResult }) => {
+                          if (!fetchMoreResult) return prev;
+                          return {
+                            ...prev,
+                            algSets: {
+                              ...fetchMoreResult.algSets,
+                              edges: [...prev.algSets.edges, ...fetchMoreResult.algSets.edges],
+                            },
+                          };
+                        }
+                      })
+                    }
+                  >
+                    Load more
+                    <Icon style={{ marginLeft: 8 }}>expand_more</Icon>
+                  </Button>
+                </Grid>
+              )}
             </Fragment>
           );
         }}

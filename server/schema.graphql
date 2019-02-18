@@ -1,7 +1,7 @@
 type Query {
   me: User
   algSet(id: ID!): AlgSet
-  algSets(filter: String, offset: Int, limit: Int): [AlgSet!]!
+  algSets(filter: String, offset: Int, limit: Int): AlgSetsResult!
   randomAlgs(count: Int!): [String!]!
 }
 
@@ -39,4 +39,9 @@ type AlgSet {
   owner: User!
   algs: [String!]!
   stargazers: [User!]!
+}
+
+type AlgSetsResult {
+  edges: [AlgSet!]!
+  totalCount: Int!
 }
