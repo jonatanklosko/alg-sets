@@ -1,7 +1,7 @@
 type Query {
   me: User
   algSet(id: ID!): AlgSet
-  algSets: [AlgSet!]!
+  algSets(filter: String): [AlgSet!]!
   randomAlgs(count: Int!): [String!]!
 }
 

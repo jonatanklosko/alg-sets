@@ -7,9 +7,16 @@ module.exports = {
   algSet: async (parent, { id }, { dataloaders: { algSetLoader } }) => {
     return await algSetLoader.load(new ObjectId(id));
   },
-  algSets: async (parent, { id }, { userId, mongo: { AlgSets } }) => {
+  algSets: async (parent, { filter = '' }, { userId, mongo: { AlgSets } }) => {
+    const regexp = new RegExp(filter.split(/\s+/).join('|'), 'gi');
     return await AlgSets.aggregate([
       { $match:  { secret: false, algs: { $ne: [] } } },
+      { $lookup: { from: 'users', localField: 'ownerId', foreignField: '_id', as: 'owner' } },
+      { $addFields: { owner: { $arrayElemAt: ['$owner', 0] } } },
+      { $match: { $or: [
+        { 'owner.name': { $regex: regexp } },
+        { name: { $regex: regexp } },
+      ] } },
       { $lookup: { from: 'users', localField: '_id', foreignField: 'starredAlgSetIds', as: 'stargazers' } },
       { $addFields: { starCount: { $size: '$stargazers' } } },
       { $sort: { starCount: -1 } },
