@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
 import CardHeader from '@material-ui/core/CardHeader';
 import Grid from '@material-ui/core/Grid';
 
@@ -24,11 +23,11 @@ const AlgSetCard = ({ algSet, currentUserId }) => {
               <Grid item>Algs: {algSet.algs.length}</Grid>
             </Grid>
           }
+          action={
+            <StarButton algSet={algSet} currentUserId={currentUserId} disabled={true} />
+          }
         />
       </CardActionArea>
-      <CardActions>
-        <StarButton algSet={algSet} currentUserId={currentUserId} />
-      </CardActions>
     </Card>
   );
 }

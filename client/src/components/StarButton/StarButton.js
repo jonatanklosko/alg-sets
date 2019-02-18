@@ -28,7 +28,7 @@ const UNSTAR_ALG_SET_MUTATION = gql`
   }
 `;
 
-const StarButton = ({ algSet, currentUserId }) => {
+const StarButton = ({ algSet, currentUserId, ...props }) => {
   const starredByCurrentUser = algSet.stargazers.some(({ id }) => id === currentUserId);
   return (
     <Mutation
@@ -45,7 +45,7 @@ const StarButton = ({ algSet, currentUserId }) => {
       }}
     >
       {(toggleStar, { error, loading }) => (
-        <IconButton disabled={!currentUserId || loading} onClick={toggleStar}>
+        <IconButton disabled={!currentUserId || loading} onClick={toggleStar} {...props}>
           <Badge badgeContent={algSet.stargazers.length} color="primary" showZero>
             <Icon color={starredByCurrentUser ? 'secondary' : 'primary'}>star</Icon>
           </Badge>
