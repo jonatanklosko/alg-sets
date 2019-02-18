@@ -31,9 +31,9 @@ const AlgList = () => (
             ))}
           </Grid>
           <div style={{ marginTop: 8, textAlign: 'right' }}>
-            <Button onClick={() => refetch()} variant="contained">
+            <Button onClick={() => refetch()} variant="outlined">
               Reload
-              <Icon>refresh</Icon>
+              <Icon style={{ marginLeft: 8 }}>refresh</Icon>
             </Button>
           </div>
         </Fragment>

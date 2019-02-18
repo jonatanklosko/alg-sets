@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
@@ -12,11 +13,11 @@ import AlgSetCard from '../../AlgSetCard/AlgSetCard';
 import { ALG_SET_DATA_FRAGMENT } from '../../../logic/graphql-fragments';
 
 const ALG_SETS_QUERY = gql`
-  query AlgSets($filter: String) {
+  query AlgSets($filter: String, $offset: Int, $limit: Int) {
     me {
       id
     }
-    algSets(filter: $filter) {
+    algSets(filter: $filter, offset: $offset, limit: $limit) {
       ...algSetData
     }
   }
@@ -41,17 +42,42 @@ const AlgSetList = () => {
           </IconButton>
         </Paper>
       </Grid>
-      <Query query={ALG_SETS_QUERY} variables={{ filter }} context={filter ? { debounceKey: 'explore-alg-sets' } : {}}>
-        {({ error, loading, data }) => {
+      <Query
+        query={ALG_SETS_QUERY}
+        variables={{ filter, offset: 0, limit: 6 }}
+        context={filter ? { debounceKey: 'explore-alg-sets' } : {}}
+      >
+        {({ error, loading, data, fetchMore }) => {
           if (error) return <div>Error</div>;
           if (loading) return <Grid item xs={12}><LinearProgress /></Grid>;
           const { algSets, me } = data;
 
-          return algSets.map(algSet => (
-            <Grid item key={algSet.id} xs={12} md={6} lg={4}>
-              <AlgSetCard algSet={algSet} currentUserId={me && me.id} />
-            </Grid>
-          ));
+          return (
+            <Fragment>
+              {algSets.map(algSet => (
+                <Grid item key={algSet.id} xs={12} md={6} lg={4}>
+                  <AlgSetCard algSet={algSet} currentUserId={me && me.id} />
+                </Grid>
+              ))}
+              <Grid item xs={12} style={{ textAlign: 'center' }}>
+                <Button
+                  variant="outlined"
+                  onClick={() =>
+                    fetchMore({
+                      variables: { offset: algSets.length },
+                      updateQuery: (prev, { fetchMoreResult }) => {
+                        if (!fetchMoreResult) return prev;
+                        return { ...prev, algSets: [...prev.algSets, ...fetchMoreResult.algSets] };
+                      }
+                    })
+                  }
+                >
+                  Load more
+                  <Icon style={{ marginLeft: 8 }}>expand_more</Icon>
+                </Button>
+              </Grid>
+            </Fragment>
+          );
         }}
       </Query>
     </Grid>
