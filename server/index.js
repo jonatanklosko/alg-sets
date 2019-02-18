@@ -39,7 +39,11 @@ app.use(cookieParser(COOKIES_SECRET));
     },
   });
 
-  app.use(express.static(path.join(__dirname, '../client/build')));
+  const buildPath = path.join(__dirname, '../client/build');
+  app.use(express.static(buildPath));
+  app.get('/*', (req, res) => {
+    res.sendFile(path.join(buildPath, 'index.html'));
+  });
 
   app.listen({ port: PORT }, () => console.log('Server running on http://localhost:4000'));
 })();
