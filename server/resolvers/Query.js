@@ -8,7 +8,7 @@ module.exports = {
     return await algSetLoader.load(new ObjectId(id));
   },
   algSets: async (parent, { filter = '', offset = 0, limit = 10 }, { userId, mongo: { AlgSets } }) => {
-    const regexp = new RegExp(filter.split(/\s+/).join('|'), 'gi');
+    const regexp = new RegExp(filter.split(/\s+/).filter(s => s).join('|'), 'gi');
     const [result] = await AlgSets.aggregate([
       { $match:  { secret: false, algs: { $ne: [] } } },
       { $lookup: { from: 'users', localField: 'ownerId', foreignField: '_id', as: 'owner' } },
