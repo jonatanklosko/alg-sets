@@ -37,7 +37,7 @@ const theme = createMuiTheme({
 });
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000',
+  uri: 'http://localhost:4000/api',
   credentials: 'include', // 'same-origin' in production
 });
 
