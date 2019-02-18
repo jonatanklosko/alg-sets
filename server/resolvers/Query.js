@@ -8,7 +8,12 @@ module.exports = {
     return await algSetLoader.load(new ObjectId(id));
   },
   algSets: async (parent, { id }, { userId, mongo: { AlgSets } }) => {
-    return await AlgSets.find({ secret: false, algs: { $ne: [] } }).toArray();
+    return await AlgSets.aggregate([
+      { $match:  { secret: false, algs: { $ne: [] } } },
+      { $lookup: { from: 'users', localField: '_id', foreignField: 'starredAlgSetIds', as: 'stargazers' } },
+      { $addFields: { starCount: { $size: '$stargazers' } } },
+      { $sort: { starCount: -1 } },
+    ]).toArray();
   },
   randomAlgs: async (parent, { count }, { mongo: { AlgSets } }) => {
     const result = await AlgSets.aggregate([
