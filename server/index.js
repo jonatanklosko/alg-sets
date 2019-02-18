@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const express = require('express');
 const { ApolloServer, gql } = require('apollo-server-express');
 const { ObjectId } = require('mongodb');
@@ -37,6 +38,8 @@ app.use(cookieParser(COOKIES_SECRET));
       credentials: true,
     },
   });
+
+  app.use(express.static(path.join(__dirname, '../client/build')));
 
   app.listen({ port: PORT }, () => console.log('Server running on http://localhost:4000'));
 })();
