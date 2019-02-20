@@ -59,6 +59,10 @@ const useStyles = makeStyles(theme => ({
   title: {
     flexGrow: 1,
   },
+  titleLink: {
+    color: 'inherit',
+    textDecoration: 'none',
+  },
 }));
 
 const Navigation = ({ children }) => {
@@ -83,7 +87,7 @@ const Navigation = ({ children }) => {
                   </IconButton>
                 )}
                 <Typography variant="h6" color="inherit" className={classes.title}>
-                  Alg Sets
+                  <Link to="/" className={classes.titleLink}>Alg Sets</Link>
                 </Typography>
                 <Button component={Link} to="/explore" color="inherit">Explore</Button>
                 {!signedIn && <Button href="/oauth/sign-in" color="inherit">Sign in</Button>}
@@ -98,10 +102,9 @@ const Navigation = ({ children }) => {
                     open={mobileOpen}
                     onClose={() => setMobileOpen(false)}
                     classes={{ paper: classes.drawer }}
+                    onClick={() => setMobileOpen(false)}
                   >
-                    <div tabIndex={0} onClick={() => setMobileOpen(false)}>
-                      <NavigationDrawerContent name={me.name} thumbUrl={me.avatar.thumbUrl} />
-                    </div>
+                    <NavigationDrawerContent name={me.name} thumbUrl={me.avatar.thumbUrl} />
                   </Drawer>
                 </Hidden>
                 <Hidden xsDown>

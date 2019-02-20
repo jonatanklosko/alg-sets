@@ -10,6 +10,8 @@ import tablet from './tablet.png';
 import laptop from './laptop.png';
 import background from './background.jpg';
 
+import Signature from '../Signature/Signature';
+
 const useStyles = makeStyles(theme => ({
   boxWithBackground: {
     height: 'calc(100vh - 56px)',
@@ -99,6 +101,9 @@ const Home = () => {
             </Button>
           </Grid>
         </Grid>
+      </Grid>
+      <Grid item>
+        <Signature />
       </Grid>
     </Grid>
   );

@@ -10,6 +10,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 
+import Signature from '../Signature/Signature';
+
 const NavigationDrawerContent = ({ name, thumbUrl }) => (
   <Fragment>
     <Grid container direction="column" alignItems="center" style={{ padding: 8 }}>
@@ -38,6 +40,10 @@ const NavigationDrawerContent = ({ name, thumbUrl }) => (
         <ListItemText primary="Sign out" />
       </ListItem>
     </List>
+    <div style={{ flexGrow: 1 }} />
+    <div style={{ padding: 16 }}>
+      <Signature />
+    </div>
   </Fragment>
 );
 
