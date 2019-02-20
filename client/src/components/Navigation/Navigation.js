@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   content: {
-    padding: theme.spacing.unit * 3,
+    padding: 24,
   },
   contentShift: {
     [theme.breakpoints.up('sm')]: {
