@@ -5,17 +5,12 @@ import { ApolloLink } from 'apollo-link';
 import { createHttpLink } from 'apollo-link-http';
 import DebounceLink from 'apollo-link-debounce';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from "@material-ui/styles";
 
 import Navigation from '../Navigation/Navigation';
-import Home from '../Home/Home';
-import AlgSetList from '../AlgSetList/AlgSetList';
-import AlgSet from '../AlgSet/AlgSet';
-import StarredAlgSetList from '../StarredAlgSetList/StarredAlgSetList';
-import Explore from '../Explore/Explore';
 
 const theme = createMuiTheme({
   palette: {
@@ -57,16 +52,7 @@ const App = () => (
     <ApolloProvider client={client}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Navigation>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/alg-sets" component={AlgSetList} />
-            <Route exact path="/alg-sets/:id" component={AlgSet} />
-            <Route exact path="/starred" component={StarredAlgSetList} />
-            <Route path="/explore" component={Explore} />
-            <Redirect to="/" />
-          </Switch>
-        </Navigation>
+        <Navigation />
       </ThemeProvider>
     </ApolloProvider>
   </BrowserRouter>

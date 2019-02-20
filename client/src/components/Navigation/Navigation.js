@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import { Link } from 'react-router-dom';
+import { Link, Switch, Route, Redirect } from 'react-router-dom';
 import classNames from 'classnames';
 import { makeStyles } from '@material-ui/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -15,6 +15,11 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
 import NavigationDrawerContent from '../NavigationDrawerContent/NavigationDrawerContent';
+import Home from '../Home/Home';
+import AlgSetList from '../AlgSetList/AlgSetList';
+import AlgSet from '../AlgSet/AlgSet';
+import StarredAlgSetList from '../StarredAlgSetList/StarredAlgSetList';
+import Explore from '../Explore/Explore';
 
 const USER_QUERY = gql`
   query {
@@ -65,7 +70,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Navigation = ({ children }) => {
+const Navigation = () => {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -87,7 +92,7 @@ const Navigation = ({ children }) => {
                   </IconButton>
                 )}
                 <Typography variant="h6" color="inherit" className={classes.title}>
-                  <Link to="/" className={classes.titleLink}>Alg Sets</Link>
+                  <Link to={signedIn ? '/alg-sets' : '/'} className={classes.titleLink}>Alg Sets</Link>
                 </Typography>
                 <Button component={Link} to="/explore" color="inherit">Explore</Button>
                 {!signedIn && <Button href="/oauth/sign-in" color="inherit">Sign in</Button>}
@@ -119,7 +124,21 @@ const Navigation = ({ children }) => {
               </Fragment>
             )}
             <main className={classNames(classes.content, { [classes.appBarShift]: signedIn })}>
-              {children}
+              {signedIn ? (
+                <Switch>
+                  <Route path="/explore" component={Explore} />
+                  <Route exact path="/alg-sets" component={AlgSetList} />
+                  <Route exact path="/alg-sets/:id" component={AlgSet} />
+                  <Route exact path="/starred" component={StarredAlgSetList} />
+                  <Redirect to="/alg-sets" />
+                </Switch>
+              ) : (
+                <Switch>
+                  <Route exact path="/" component={Home} />
+                  <Route path="/explore" component={Explore} />
+                  <Redirect to="/" />
+                </Switch>
+              )}
             </main>
           </Fragment>
         );
