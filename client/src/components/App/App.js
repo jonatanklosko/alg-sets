@@ -32,10 +32,11 @@ const theme = createMuiTheme({
   },
 });
 
-const httpLink = createHttpLink({
-  uri: 'http://localhost:4000/api',
-  credentials: 'include', // 'same-origin' in production
-});
+const httpLink = createHttpLink(
+  process.env.NODE_ENV === 'production'
+    ? { uri: '/api', credentials: 'same-origin' }
+    : { uri: 'http://localhost:4000/api', credentials: 'include' }
+);
 
 const link = new ApolloLink.from([
   new DebounceLink(250),

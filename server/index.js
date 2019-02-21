@@ -8,9 +8,7 @@ const oauth = require('./oauth');
 const resolvers = require('./resolvers');
 const connectMongo = require('./mongo-connector');
 const dataloaders = require('./dataloaders');
-
-const COOKIES_SECRET = 'cats-the-sweetest-thing';
-const PORT = 4000;
+const { PRODUCTION, PORT, COOKIES_SECRET } = require('./config');
 
 const app = express();
 app.use(cookieParser(COOKIES_SECRET));
@@ -33,10 +31,7 @@ app.use(cookieParser(COOKIES_SECRET));
   server.applyMiddleware({
     app,
     path: '/api',
-    cors: {
-      origin: 'http://localhost:3000',
-      credentials: true,
-    },
+    cors: PRODUCTION ? false : { origin: 'http://localhost:3000', credentials: true },
   });
 
   const buildPath = path.join(__dirname, '../client/build');
@@ -45,5 +40,7 @@ app.use(cookieParser(COOKIES_SECRET));
     res.sendFile(path.join(buildPath, 'index.html'));
   });
 
-  app.listen({ port: PORT }, () => console.log('Server running on http://localhost:4000'));
+  app.listen({ port: PORT }, () =>
+    console.log(`Server running on http://localhost:${PORT}`)
+  );
 })();

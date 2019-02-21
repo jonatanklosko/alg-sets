@@ -1,10 +1,6 @@
 const express = require('express');
 const fetch = require('node-fetch');
-
-const WCA_OAUTH_CLIENT_ID = 'example-application-id';
-const WCA_OAUTH_SECRET = 'example-secret';
-const WCA_ORIGIN = 'https://staging.worldcubeassociation.org';
-const WCA_OAUTH_REDIRECT_URI  = 'http://localhost:4000/oauth/callback';
+const { PRODUCTION, WCA_OAUTH_CLIENT_ID, WCA_OAUTH_SECRET, WCA_ORIGIN, WCA_OAUTH_REDIRECT_URI } = require('./config');
 
 const userJsonToUser = userJson => ({
   wcaUserId: userJson['id'],
@@ -51,7 +47,7 @@ module.exports = ({ Users }) => {
     );
     res.cookie('userId', dbUser._id, {
       httpOnly: true,
-      // secure: true,
+      secure: PRODUCTION,
       sameSite: 'strict',
       signed: true,
       maxAge: 24 * 60 * 60 * 1000,
