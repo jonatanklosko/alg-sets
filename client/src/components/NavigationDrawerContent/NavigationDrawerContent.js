@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 
 import Signature from '../Signature/Signature';
 
-const NavigationDrawerContent = ({ name, thumbUrl }) => (
+const NavigationDrawerContent = ({ name, thumbUrl, apolloClient }) => (
   <Fragment>
     <Grid container direction="column" alignItems="center" style={{ padding: 8 }}>
       <Grid item>
@@ -35,7 +35,13 @@ const NavigationDrawerContent = ({ name, thumbUrl }) => (
     </List>
     <Divider />
     <List>
-      <ListItem button>
+      <ListItem
+        button
+        onClick={() => {
+          fetch('/oauth/sign-out', { credentials: 'same-origin' })
+            .then(() => apolloClient.resetStore());
+        }}
+      >
         <ListItemIcon><Icon>exit_to_app</Icon></ListItemIcon>
         <ListItemText primary="Sign out" />
       </ListItem>

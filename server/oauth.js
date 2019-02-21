@@ -57,7 +57,7 @@ module.exports = ({ Users }) => {
 
   router.get('/sign-out', (req, res) => {
     res.clearCookie('userId');
-    res.redirect('/');
+    res.end();
   });
 
   return router;

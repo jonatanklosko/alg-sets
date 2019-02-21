@@ -76,7 +76,7 @@ const Navigation = () => {
 
   return (
     <Query query={USER_QUERY}>
-      {({ error, loading, data }) => {
+      {({ error, loading, data, client }) => {
         if (error) return <div>Error</div>;
         if (loading) return <LinearProgress />;
         const { me } = data;
@@ -109,7 +109,7 @@ const Navigation = () => {
                     classes={{ paper: classes.drawer }}
                     onClick={() => setMobileOpen(false)}
                   >
-                    <NavigationDrawerContent name={me.name} thumbUrl={me.avatar.thumbUrl} />
+                    <NavigationDrawerContent name={me.name} thumbUrl={me.avatar.thumbUrl} apolloClient={client} />
                   </Drawer>
                 </Hidden>
                 <Hidden xsDown>
@@ -118,7 +118,7 @@ const Navigation = () => {
                     variant="permanent"
                     classes={{ paper: classes.drawer }}
                   >
-                    <NavigationDrawerContent name={me.name} thumbUrl={me.avatar.thumbUrl} />
+                    <NavigationDrawerContent name={me.name} thumbUrl={me.avatar.thumbUrl} apolloClient={client} />
                   </Drawer>
                 </Hidden>
               </Fragment>
