@@ -1,5 +1,8 @@
-const fs = require('fs');
 const path = require('path');
+/* Load envinroment variables. */
+require('dotenv').config({ path: path.join(__dirname, '.env') });
+
+const fs = require('fs');
 const express = require('express');
 const { ApolloServer, gql } = require('apollo-server-express');
 const { ObjectId } = require('mongodb');

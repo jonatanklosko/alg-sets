@@ -1,7 +1,8 @@
 {
   "name": "alg-sets-client",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "author": "Jonatan Kłosko",
+  "license": "MIT",
   "dependencies": {
     "@material-ui/core": "^3.9.2",
     "@material-ui/styles": "^3.0.0-alpha.10",
