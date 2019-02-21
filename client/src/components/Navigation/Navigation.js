@@ -136,6 +136,7 @@ const Navigation = () => {
                 <Switch>
                   <Route exact path="/" component={Home} />
                   <Route path="/explore" component={Explore} />
+                  <Route exact path="/alg-sets/:id" component={AlgSet} />
                   <Redirect to="/" />
                 </Switch>
               )}
