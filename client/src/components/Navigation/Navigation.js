@@ -129,6 +129,7 @@ const Navigation = () => {
                   <Route path="/explore" component={Explore} />
                   <Route exact path="/alg-sets" component={AlgSetList} />
                   <Route exact path="/alg-sets/:id" component={AlgSet} />
+                  <Route exact path="/alg-sets/:id/:name" component={AlgSet} />
                   <Route exact path="/starred" component={StarredAlgSetList} />
                   <Redirect to="/alg-sets" />
                 </Switch>
@@ -137,6 +138,7 @@ const Navigation = () => {
                   <Route exact path="/" component={Home} />
                   <Route path="/explore" component={Explore} />
                   <Route exact path="/alg-sets/:id" component={AlgSet} />
+                  <Route exact path="/alg-sets/:id/:name" component={AlgSet} />
                   <Redirect to="/" />
                 </Switch>
               )}
