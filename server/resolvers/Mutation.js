@@ -21,7 +21,8 @@ module.exports = {
       )
     );
   },
-  deleteAlgSet: async (parent, { id }, { userId, mongo: { AlgSets } }) => {
+  deleteAlgSet: async (parent, { id }, { userId, mongo: { AlgSets, Users } }) => {
+    await Users.update({}, { $pull: { starredAlgSetIds: new ObjectId(id) } });
     return getDocument(
       await AlgSets.findOneAndDelete({ _id: new ObjectId(id), ownerId: userId })
     );
