@@ -1,6 +1,6 @@
 import { shrink } from './moves';
 
-export const algImageUrl = alg => {
+export const algImageUrl = (alg, { stage , topView } = {}) => {
   const IMAGE_BASE_URL = 'http://cube.crider.co.uk/visualcube.php';
   const params = new URLSearchParams({
     fmt: 'svg',
@@ -9,7 +9,10 @@ export const algImageUrl = alg => {
     pzl: 3,
     case: shrink(alg),
     sch: 'yrbwog',
-    r: 'y34x-34'
+    r: 'y34x-34',
+    /* Additional options */
+    stage,
+    view: topView ? 'plan' : '',
   });
   return `${IMAGE_BASE_URL}?${params.toString()}`;
 };

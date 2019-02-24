@@ -6,9 +6,9 @@ const getDocument = ({ value }) => {
 };
 
 module.exports = {
-  createAlgSet: async (parent, { name, secret, algs = [] }, { userId, mongo: { AlgSets } }) => {
+  createAlgSet: async (parent, { algs = [], ...args }, { userId, mongo: { AlgSets } }) => {
     const { ops: [algSet] } = await AlgSets.insertOne(
-      { ownerId: userId, name, secret, algs }
+      { ownerId: userId, ...args, algs }
     );
     return algSet;
   },

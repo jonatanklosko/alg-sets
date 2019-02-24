@@ -22,14 +22,14 @@ const REMOVE_ALG_FROM_ALG_SET_MUTATION = gql`
   }
 `;
 
-const AlgCard = ({ alg, algSetId, isOwner }) => {
+const AlgCard = ({ alg, algSetId, isOwner, cubeImageOptions }) => {
   const [menuPosition, setMenuPosition] = useState(null);
   const closeMenu = () => setMenuPosition(null);
   return (
     <Fragment>
       <Card>
         <CardActionArea onClick={event => setMenuPosition({ left: event.clientX, top: event.clientY })}>
-          <CardMedia component="img" image={algImageUrl(alg)} height={150} />
+          <CardMedia component="img" image={algImageUrl(alg, cubeImageOptions)} height={150} />
           <CardContent>
             <Typography variant="body1" style={{ textAlign: 'center' }}>
               {alg}

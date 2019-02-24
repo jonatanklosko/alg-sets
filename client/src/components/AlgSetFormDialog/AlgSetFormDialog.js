@@ -7,30 +7,40 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 
 import { ALG_SETS_QUERY } from '../AlgSetList/AlgSetList';
-import { preventDefault } from '../../logic/utils';
+import { preventDefault, algImageUrl } from '../../logic/utils';
+import stages from '../../logic/stages';
 
 const CREATE_ALG_SET_MUTATION = gql`
-  mutation CreateAlgSet($name: String!, $secret: Boolean!) {
-    createAlgSet(name: $name, secret: $secret) {
+  mutation CreateAlgSet($name: String!, $secret: Boolean!, $stage: String!, $topView: Boolean!) {
+    createAlgSet(name: $name, secret: $secret, stage: $stage, topView: $topView) {
       id
       name
       secret
+      stage
+      topView
       algs
     }
   }
 `;
 
 const UPDATE_ALG_SET_MUTATION = gql`
-  mutation UpdateAlgSet($id: ID!, $name: String, $secret: Boolean) {
-    updateAlgSet(id: $id, name: $name, secret: $secret) {
+  mutation UpdateAlgSet($id: ID!, $name: String, $secret: Boolean, $stage: String, $topView: Boolean) {
+    updateAlgSet(id: $id, name: $name, secret: $secret, stage: $stage, topView: $topView) {
       id
       name
       secret
+      stage
+      topView
       algs
     }
   }
@@ -38,17 +48,19 @@ const UPDATE_ALG_SET_MUTATION = gql`
 
 const AlgSetFormDialog = ({ children }) => {
   const [algSet, setAlgSet] = useState(null);
-  const { id, name, secret } = { name: '', secret: false, ...(algSet || {}) };
+  const { id, name, secret, stage, topView } = {
+    name: '', secret: false, stage: 'full', topView: false, ...(algSet || {}),
+  };
   const close = () => setAlgSet(null);
   const open = !!algSet;
   return (
     <Fragment>
       {children(setAlgSet)}
-      <Dialog open={open} onClose={close}>
+      <Dialog open={open} onClose={close} fullWidth>
         <DialogTitle>{id ? 'Edit alg set' : 'New alg set'}</DialogTitle>
         <Mutation
           mutation={id ? UPDATE_ALG_SET_MUTATION : CREATE_ALG_SET_MUTATION}
-          variables={{ id, name, secret }}
+          variables={{ id, name, secret, stage, topView }}
           update={(store, { data: { createAlgSet, updateAlgSet } }) => {
             const data = store.readQuery({ query: ALG_SETS_QUERY });
             data.me.algSets = id
@@ -68,6 +80,7 @@ const AlgSetFormDialog = ({ children }) => {
                       label="Name"
                       value={name}
                       onChange={event => setAlgSet({ ...algSet, name: event.target.value })}
+                      fullWidth
                     />
                   </Grid>
                   <Grid item>
@@ -75,6 +88,32 @@ const AlgSetFormDialog = ({ children }) => {
                       control={<Checkbox checked={secret} onChange={() => setAlgSet({ ...algSet, secret: !secret })} />}
                       label="Secret"
                     />
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="subtitle2" gutterBottom>Cube preview</Typography>
+                  </Grid>
+                  <Grid item>
+                    <FormControl fullWidth>
+                      <InputLabel htmlFor="stage">Stage</InputLabel>
+                      <Select
+                        inputProps={{ name: 'stage', id: 'stage' }}
+                        value={stage}
+                        onChange={event => setAlgSet({ ...algSet, stage: event.target.value })}
+                      >
+                        {stages.map(({ id, name }) => (
+                          <MenuItem value={id} key={id}>{name}</MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item>
+                    <FormControlLabel
+                      control={<Checkbox checked={topView} onChange={() => setAlgSet({ ...algSet, topView: !topView })} />}
+                      label="Top view"
+                    />
+                  </Grid>
+                  <Grid item style={{ textAlign: 'center' }}>
+                    <img src={algImageUrl('', { stage, topView })} alt="Alg" />
                   </Grid>
                 </Grid>
               </DialogContent>

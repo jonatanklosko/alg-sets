@@ -6,8 +6,8 @@ type Query {
 }
 
 type Mutation {
-  createAlgSet(name: String!, secret: Boolean!, algs: [String!]): AlgSet
-  updateAlgSet(id: ID!, name: String, secret: Boolean, algs: [String!]): AlgSet
+  createAlgSet(name: String!, secret: Boolean!, stage: String!, topView: Boolean!, algs: [String!]): AlgSet
+  updateAlgSet(id: ID!, name: String, secret: Boolean, stage: String, topView: Boolean, algs: [String!]): AlgSet
   deleteAlgSet(id: ID!): AlgSet
   addAlgToAlgSet(id: ID!, alg: String!): AlgSet
   removeAlgFromAlgSet(id: ID!, alg: String!): AlgSet
@@ -36,6 +36,8 @@ type AlgSet {
   id: ID!
   name: String!
   secret: Boolean!
+  stage: String!
+  topView: Boolean!
   owner: User!
   algs: [String!]!
   stargazers: [User!]!

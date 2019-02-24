@@ -37,6 +37,7 @@ const AlgSet = ({ match }) => (
       if (loading) return <LinearProgress />;
       const { algSet, me } = data;
       const isOwner = me && me.id === algSet.owner.id;
+      const cubeImageOptions = { stage: algSet.stage, topView: algSet.topView };
 
       return (
         <Fragment>
@@ -71,7 +72,7 @@ const AlgSet = ({ match }) => (
             <Grid item>
               {isOwner && (
                 <Fragment>
-                  <AlgFormDialog algSetId={algSet.id}>
+                  <AlgFormDialog algSetId={algSet.id} cubeImageOptions={cubeImageOptions}>
                     {openDialogWith => (
                       <IconButton onClick={() => openDialogWith('')}>
                         <Icon>add</Icon>
@@ -98,7 +99,12 @@ const AlgSet = ({ match }) => (
           <Grid container spacing={8}>
             {algSet.algs.map(alg => (
               <Grid item key={alg} xs={12} md={6} lg={3}>
-                <AlgCard alg={alg} algSetId={algSet.id} isOwner={isOwner} />
+                <AlgCard
+                  alg={alg}
+                  algSetId={algSet.id}
+                  isOwner={isOwner}
+                  cubeImageOptions={cubeImageOptions}
+                />
               </Grid>
             ))}
           </Grid>

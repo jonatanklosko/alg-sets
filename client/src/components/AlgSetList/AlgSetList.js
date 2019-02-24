@@ -24,6 +24,8 @@ export const ALG_SETS_QUERY = gql`
         id
         name
         secret
+        stage
+        topView
         algs
       }
     }

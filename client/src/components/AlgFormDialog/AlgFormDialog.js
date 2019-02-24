@@ -20,7 +20,7 @@ const ADD_ALG_TO_ALG_SET_MUTATION = gql`
   }
 `;
 
-const AlgFormDialog = ({ children, algSetId }) => {
+const AlgFormDialog = ({ children, algSetId, cubeImageOptions }) => {
   const [alg, setAlg] = useState(null);
   const close = () => setAlg(null);
   const open = !!alg || alg === '';
@@ -37,7 +37,7 @@ const AlgFormDialog = ({ children, algSetId }) => {
           {(addAlgToAlgSet, { error, loading }) => (
             <form onSubmit={preventDefault(addAlgToAlgSet)}>
               <DialogContent style={{ textAlign: 'center' }}>
-                <img src={algImageUrl(alg)} alt="Alg" />
+                <img src={algImageUrl(alg, cubeImageOptions)} alt="Alg" />
                 <TextField
                   autoFocus
                   fullWidth
