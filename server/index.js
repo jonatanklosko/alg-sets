@@ -35,6 +35,7 @@ app.use(cookieParser(COOKIES_SECRET));
     app,
     path: '/api',
     cors: PRODUCTION ? false : { origin: 'http://localhost:3000', credentials: true },
+    bodyParserConfig: { limit: '5mb' },
   });
 
   const buildPath = path.join(__dirname, '../client/build');
