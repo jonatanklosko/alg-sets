@@ -87,7 +87,7 @@ const AlgSet = ({ match }) => (
                   </ImportExportDialog>
                 </Fragment>
               )}
-              <CopyToClipboard text={window.location}>
+              <CopyToClipboard text={`${window.location.host}/alg-sets/${algSet.id}/${algSet.name}`}>
                 <IconButton>
                   <Icon>link</Icon>
                 </IconButton>
