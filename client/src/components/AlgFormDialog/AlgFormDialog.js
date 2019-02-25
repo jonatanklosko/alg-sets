@@ -8,6 +8,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 
+import AlgImage from '../AlgImage/AlgImage';
 import { prettify } from '../../logic/moves';
 import { algImageUrl, preventDefault } from '../../logic/utils';
 
@@ -37,7 +38,7 @@ const AlgFormDialog = ({ children, algSetId, cubeImageOptions }) => {
           {(addAlgToAlgSet, { error, loading }) => (
             <form onSubmit={preventDefault(addAlgToAlgSet)}>
               <DialogContent style={{ textAlign: 'center' }}>
-                <img src={algImageUrl(alg, cubeImageOptions)} alt="Alg" />
+                <AlgImage alg={alg} options={cubeImageOptions} />
                 <TextField
                   autoFocus
                   fullWidth

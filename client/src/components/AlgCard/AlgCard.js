@@ -11,7 +11,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 
 import ConfirmDialog from '../ConfirmDialog/ConfirmDialog';
-import { algImageUrl, algAnimationUrl } from '../../logic/utils';
+import AlgImage from '../AlgImage/AlgImage';
+import { algAnimationUrl } from '../../logic/utils';
 
 const REMOVE_ALG_FROM_ALG_SET_MUTATION = gql`
   mutation RemoveAlgFromAlgSet($id: ID!, $alg: String!) {
@@ -29,7 +30,7 @@ const AlgCard = ({ alg, algSetId, isOwner, cubeImageOptions }) => {
     <Fragment>
       <Card>
         <CardActionArea onClick={event => setMenuPosition({ left: event.clientX, top: event.clientY })}>
-          <CardMedia component="img" image={algImageUrl(alg, cubeImageOptions)} height={150} />
+          <AlgImage alg={alg} options={cubeImageOptions} style={{ margin: 'auto', display: 'block' }} />
           <CardContent>
             <Typography variant="body1" style={{ textAlign: 'center' }}>
               {alg}

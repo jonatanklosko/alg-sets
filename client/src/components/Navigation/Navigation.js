@@ -14,6 +14,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
+import ColorSchemeContext from '../ColorSchemeContext/ColorSchemeContext';
 import NavigationDrawerContent from '../NavigationDrawerContent/NavigationDrawerContent';
 import Home from '../Home/Home';
 import AlgSetList from '../AlgSetList/AlgSetList';
@@ -30,6 +31,7 @@ const USER_QUERY = gql`
       avatar {
         thumbUrl
       }
+      colorScheme
     }
   }
 `;
@@ -126,23 +128,25 @@ const Navigation = () => {
               </Fragment>
             )}
             <main className={classNames(classes.content, { [classes.appBarShift]: signedIn })}>
-              {signedIn ? (
-                <Switch>
-                  <Route path="/explore" component={Explore} />
-                  <Route exact path="/alg-sets" component={AlgSetList} />
-                  <Route exact path="/alg-sets/:id" component={AlgSet} />
-                  <Route exact path="/starred" component={StarredAlgSetList} />
-                  <Route exact path="/me" component={AccountSettings} />
-                  <Redirect to="/alg-sets" />
-                </Switch>
-              ) : (
-                <Switch>
-                  <Route exact path="/" component={Home} />
-                  <Route path="/explore" component={Explore} />
-                  <Route exact path="/alg-sets/:id" component={AlgSet} />
-                  <Redirect to="/" />
-                </Switch>
-              )}
+              <ColorSchemeContext.Provider value={me.colorScheme}>
+                {signedIn ? (
+                  <Switch>
+                    <Route path="/explore" component={Explore} />
+                    <Route exact path="/alg-sets" component={AlgSetList} />
+                    <Route exact path="/alg-sets/:id" component={AlgSet} />
+                    <Route exact path="/starred" component={StarredAlgSetList} />
+                    <Route exact path="/me" component={AccountSettings} />
+                    <Redirect to="/alg-sets" />
+                  </Switch>
+                ) : (
+                  <Switch>
+                    <Route exact path="/" component={Home} />
+                    <Route path="/explore" component={Explore} />
+                    <Route exact path="/alg-sets/:id" component={AlgSet} />
+                    <Redirect to="/" />
+                  </Switch>
+                )}
+              </ColorSchemeContext.Provider>
             </main>
           </Fragment>
         );

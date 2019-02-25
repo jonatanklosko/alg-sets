@@ -16,8 +16,9 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
+import AlgImage from '../AlgImage/AlgImage';
 import { ALG_SETS_QUERY } from '../AlgSetList/AlgSetList';
-import { preventDefault, algImageUrl } from '../../logic/utils';
+import { preventDefault } from '../../logic/utils';
 import stages from '../../logic/stages';
 
 const CREATE_ALG_SET_MUTATION = gql`
@@ -113,7 +114,7 @@ const AlgSetFormDialog = ({ children }) => {
                     />
                   </Grid>
                   <Grid item style={{ textAlign: 'center' }}>
-                    <img src={algImageUrl('', { stage, topView })} alt="Alg" />
+                    <AlgImage options={{ stage, topView }} />
                   </Grid>
                 </Grid>
               </DialogContent>

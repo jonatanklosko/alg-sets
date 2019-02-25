@@ -8,7 +8,8 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import { TwitterPicker } from 'react-color'
 
-import { defaultColorScheme, algImageUrl } from '../../logic/utils';
+import AlgImage from '../AlgImage/AlgImage';
+import { defaultColorScheme } from '../../logic/utils';
 
 const colorList = ['#000000', '#FFFFFF', '#FEFE00', '#EE0000', '#FFA100', '#0000F2', '#00D800'];
 const sides = ['U', 'R', 'F', 'D', 'L', 'B'];
@@ -55,7 +56,7 @@ const ColorSchemeEditor = ({ colorScheme, onChange }) => {
         </Grid>
       </Grid>
       <Grid item>
-        <img src={algImageUrl('R2 L2 U2 D2 F2 B2', { colorScheme })} alt="Alg" />
+        <AlgImage alg="R2 L2 U2 D2 F2 B2" options={{ colorScheme }} />
       </Grid>
     </Grid>
   );
