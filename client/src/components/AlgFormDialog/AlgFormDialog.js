@@ -10,7 +10,7 @@ import TextField from '@material-ui/core/TextField';
 
 import AlgImage from '../AlgImage/AlgImage';
 import { prettify } from '../../logic/moves';
-import { algImageUrl, preventDefault } from '../../logic/utils';
+import { preventDefault } from '../../logic/utils';
 
 const ADD_ALG_TO_ALG_SET_MUTATION = gql`
   mutation AddAlgToAlgSet($id: ID!, $alg: String!) {

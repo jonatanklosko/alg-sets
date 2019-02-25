@@ -128,7 +128,7 @@ const Navigation = () => {
               </Fragment>
             )}
             <main className={classNames(classes.content, { [classes.appBarShift]: signedIn })}>
-              <ColorSchemeContext.Provider value={me.colorScheme}>
+              <ColorSchemeContext.Provider value={me && me.colorScheme}>
                 {signedIn ? (
                   <Switch>
                     <Route path="/explore" component={Explore} />
