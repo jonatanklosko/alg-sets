@@ -20,10 +20,12 @@ import AlgSetList from '../AlgSetList/AlgSetList';
 import AlgSet from '../AlgSet/AlgSet';
 import StarredAlgSetList from '../StarredAlgSetList/StarredAlgSetList';
 import Explore from '../Explore/Explore';
+import AccountSettings from '../AccountSettings/AccountSettings';
 
 const USER_QUERY = gql`
   query {
     me {
+      id
       name
       avatar {
         thumbUrl
@@ -130,6 +132,7 @@ const Navigation = () => {
                   <Route exact path="/alg-sets" component={AlgSetList} />
                   <Route exact path="/alg-sets/:id" component={AlgSet} />
                   <Route exact path="/starred" component={StarredAlgSetList} />
+                  <Route exact path="/me" component={AccountSettings} />
                   <Redirect to="/alg-sets" />
                 </Switch>
               ) : (

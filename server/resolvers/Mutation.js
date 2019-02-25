@@ -55,4 +55,13 @@ module.exports = {
     await Users.updateOne({ _id: userId }, { $pull: { starredAlgSetIds: algSet._id } });
     return algSet;
   },
+  updateMe: async (parent, args, { userId, mongo: { Users }, dataloaders: { userLoader } }) => {
+    return getDocument(
+      await Users.findOneAndUpdate(
+        { _id: userId },
+        { $set: args },
+        { returnOriginal: false },
+      )
+    );
+  },
 };

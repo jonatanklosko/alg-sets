@@ -1,6 +1,8 @@
 import { shrink } from './moves';
 
-export const algImageUrl = (alg, { stage , topView } = {}) => {
+export const defaultColorScheme = 'FEFE00,EE0000,0000F2,FFFFFF,FFA100,00D800'; /* URFDLB */
+
+export const algImageUrl = (alg, { stage , topView, colorScheme } = {}) => {
   const IMAGE_BASE_URL = 'http://cube.crider.co.uk/visualcube.php';
   const params = new URLSearchParams({
     fmt: 'svg',
@@ -8,7 +10,7 @@ export const algImageUrl = (alg, { stage , topView } = {}) => {
     bg: 't',
     pzl: 3,
     case: shrink(alg),
-    sch: 'yrbwog',
+    sch: colorScheme || defaultColorScheme,
     r: 'y34x-34',
     /* Additional options */
     stage,
@@ -29,4 +31,4 @@ export const preventDefault = fn => event => {
 };
 
 export const pluralize = (count, singular, plural) =>
-  `${count} ${count === 1 ? singular : (plural || singular + 's')}`
+  `${count} ${count === 1 ? singular : (plural || singular + 's')}`;

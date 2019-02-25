@@ -35,6 +35,10 @@ const NavigationDrawerContent = ({ name, thumbUrl, apolloClient }) => (
     </List>
     <Divider />
     <List>
+      <ListItem button component={Link} to="/me">
+        <ListItemIcon><Icon>settings</Icon></ListItemIcon>
+        <ListItemText primary="Account settings" />
+      </ListItem>
       <ListItem
         button
         onClick={() => {
