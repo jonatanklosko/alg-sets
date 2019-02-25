@@ -2,11 +2,11 @@ import { shrink } from './moves';
 
 export const defaultColorScheme = 'FEFE00,EE0000,0000F2,FFFFFF,FFA100,00D800'; /* URFDLB */
 
-export const algImageUrl = (alg, { stage , topView, colorScheme } = {}) => {
+export const algImageUrl = (alg, { stage , topView, colorScheme, size } = {}) => {
   const IMAGE_BASE_URL = 'http://cube.crider.co.uk/visualcube.php';
   const params = new URLSearchParams({
     fmt: 'svg',
-    size: 150,
+    size: size || 150,
     bg: 't',
     pzl: 3,
     case: shrink(alg),
