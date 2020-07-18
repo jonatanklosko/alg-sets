@@ -27,10 +27,13 @@ const AlgCard = ({ alg, algSetId, isOwner, cubeImageOptions }) => {
   const closeMenu = () => setMenuPosition(null);
   return (
     <Fragment>
-      <Card>
-        <CardActionArea onClick={event => setMenuPosition({ left: event.clientX, top: event.clientY })}>
+      <Card style={{ height: '100%' }}>
+        <CardActionArea
+          style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+          onClick={event => setMenuPosition({ left: event.clientX, top: event.clientY })}
+        >
           <AlgImage alg={alg} options={cubeImageOptions} style={{ margin: 'auto', display: 'block' }} />
-          <CardContent>
+          <CardContent style={{ flexGrow: 1 }}>
             <Typography variant="body1" style={{ textAlign: 'center' }}>
               {alg}
             </Typography>
