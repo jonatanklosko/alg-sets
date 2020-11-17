@@ -1,4 +1,5 @@
 import { shrink } from './moves';
+import { normalizeStage } from './stages';
 
 export const defaultColorScheme = 'FEFE00,EE0000,0000F2,FFFFFF,FFA100,00D800'; /* URFDLB */
 
@@ -7,15 +8,19 @@ export const algImageUrl = (alg, { stage , topView, colorScheme, size } = {}) =>
   const params = new URLSearchParams({
     fmt: 'svg',
     size: size || 150,
-    bg: 't',
     pzl: 3,
     case: shrink(alg),
     sch: colorScheme || defaultColorScheme,
     r: 'y34x-34',
     /* Additional options */
-    stage,
     view: topView ? 'plan' : '',
   });
+
+  const normalizedStage = normalizeStage(stage)
+  if (normalizedStage) {
+    params.set('stage', normalizedStage)
+  }
+
   return `${IMAGE_BASE_URL}?${params.toString()}`;
 };
 
