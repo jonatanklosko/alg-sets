@@ -15,7 +15,7 @@
     "express": "^4.16.4",
     "graphql": "^14.1.1",
     "mongodb": "^3.1.13",
-    "node-fetch": "^2.3.0"
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "nodemon": "^1.18.10"
